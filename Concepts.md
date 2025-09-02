@@ -1,0 +1,276 @@
+# Conditional css using clsx and tailwindmerge
+
+- using clsx and Tailwindmerge
+  make a cn.js file in utils folder
+
+```javascript
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}
+```
+
+- now import this in any component and use it for conditional css application
+
+```javascript
+import { cn } from "../utils/cn";
+
+function MyComponent({ isActive }) {
+  return (
+    <div className={cn("base-class", { "active-class": isActive })}>
+      Hello World
+    </div>
+  );
+}
+```
+
+- or you can directly use clsx
+
+```javascript
+import { clsx } from "clsx";
+
+function MyComponent({ isActive }) {
+  return (
+    <div className={clsx("base-class", { "active-class": isActive })}>
+      Hello World
+    </div>
+  );
+}
+```
+
+**_window object_**
+
+# Scroll tracking using Window object
+
+- window.addEventListener('scroll', () => {
+- const scrollY = window.scrollY;
+- console.log('Scroll position:', scrollY);
+- });
+
+# Hooks
+- [use state]
+
+- [use params]
+  use params is used to access dynamic route parameters from the current URL.
+  Example: If your route is defined as /user/:id, you can access the id parameter using useParams.
+  Example - 
+  ```javascript
+  import { useParams } from "react-router-dom";
+  function UserProfile() {
+    const { id } = useParams();
+    // what this use params returns is the object containing the dynamic route parameters and its value 
+    return <h1>User ID: {id}</h1>;
+  }
+  export default UserProfile;
+
+- Difference between [useSearchParams] and [useParams] hook 
+  1. useSearchParams
+  - Purpose: React Router’s official hook to read and update the query string in the URL.
+   Return Value:
+   An array [searchParams, setSearchParams]
+  - searchParams: A URLSearchParams object to read the current query string values.
+  - setSearchParams: A function to update the query string.
+  Usage Example:
+  ```javacsript 
+  import { useSearchParams } from "react-router-dom";
+  function Products() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get("category");
+
+  const updateCategory = () => {
+    setSearchParams({ category: "electronics" });
+  };
+
+  return (
+    <div>
+      <p>Category: {category}</p>
+      <button onClick={updateCategory}>Change to Electronics</button>
+    </div>
+   );
+  }
+  ```
+  2. useSearchParams (from external libraries)
+  This is not from React Router. It usually comes from libraries like:
+  react-use->(useSearchParam)
+  use-query-params->(useSearchParan)
+  Purpose: A lightweight way to read a single query parameter.
+  Return Value:
+  -Typically returns the value of the specific query param.
+
+  Usage Example (with react-use):
+  - import { useSearchParam } from "react-use";
+   function Products() {
+   const category = useSearchParam("category");
+   return <p>Category: {category}</p>;
+   }
+ - Key Points:
+   Good for simple reads but usually doesn’t provide a straightforward way to update the query string.
+   Not officially maintained by React Router, so integration with navigation may be less seamless.
+
+   The useParams hook in React Router is used to access dynamic route parameters from the current URL. (/home/:id)
+   When you define a route with parameters like [:id] or [:username], useParams lets you read those values in the component rendered by that route.
+   You can read params but cannot modify them directly.
+   The useParams hook returns an object containing key-value pairs of all the dynamic parameters from your route. 
+ - const params = useParams();
+
+  ```javascript
+      <Route path="/home/:id" element={<Home />}>
+      import { useParams } from "react-router-dom";
+      function UserProfile() {
+      const { id } = useParams();
+      return <h1>User ID: {id}</h1>;
+      }
+      export default UserProfile;
+
+    // multiple paramters hote to kya krte 
+    <Route path="/product/:category/:id" element={<Product />} />
+    import { useParams } from "react-router-dom";
+    function Product() {
+      const { category, id } = useParams();
+      // use params return an object containing the keys of the parameter along with values
+      // Example - { category: "fashion", id: "1698" }
+      return (
+        <div>
+          <h2>Category: {category}</h2>
+          <h2>Product ID: {id}</h2>
+        </div>
+      );
+    } 
+    ```  
+  
+- [use Location] (**_form react-router-dom_**)
+
+  \*is used to get information about the current URL in a React app that uses React Router.
+  - It gives you details like:
+    - The current path (e.g., /about)
+    - Any query parameters (e.g., ?id=42)
+    - The hash (e.g., #section1)
+    - And other location-related info
+    - example:
+
+      ```javascript
+      import { useLocation } from "react-router-dom";
+      function MyComponent() {
+        const location = useLocation();
+        console.log(location);
+        // Example output:
+        // {
+        //   pathname: "/products",
+        //   search: "?id=42",
+        //   hash: "#reviews",
+        //   state: null,
+        //   key: "xyz123"
+        // }
+        return (
+          <div>
+            <p>Current path: {location.pathname}</p>
+            <p>Query parameters: {JSON.stringify(location.search)}</p>
+            <p>Hash: {location.hash}</p>
+          </div>
+        );
+      }
+      ```
+- [useEffect]
+- [useRef]
+- [useContext]
+
+# React-router-dom
+Read more - https://reactrouter.com/api/components/Route
+https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
+https://reactrouter.com/start/declarative/navigating
+https://reactrouter.com/start/declarative/routing
+## react router installation and setup documentation
+https://reactrouter.com/6.30.1/start/tutorial
+# Read more about
+- url params and search params hook , useSearchParams FROM react-router-dom documentation
+read more - https://reactrouter.com/docs/en/v6/hooks/useSearchParams
+- useNavigate hook FROM react-router-dom documentation
+read more - https://reactrouter.com/docs/en/v6/hooks/useNavigate
+- useParams hook FROM react-router-dom documentation
+read more - https://reactrouter.com/docs/en/v6/hooks/useParams
+
+## How to setup React Routes
+- Install React-Router-DOM
+```bash
+npm install react-router-dom
+```
+- In your main application file (e.g., App.js or index.js), set up the router:
+```javascript
+
+import {
+  BrowserRouter,  // you will need this 
+  createBrowserRouter, // and this 
+  RouterProvider, // this 
+} from "react-router";
+
+function App() {
+  // create the router using createBrowserRouter and make some paths and elements
+  // you can also load children routes and render them inside their parent route using <Outlet />
+  // whereever you need to render the child in the parent component
+  const router = createBrowserRouter([
+    {
+      path: "/home",
+      element: <Home />,
+      errorElement:<Errorpage />,
+    },
+    {
+      path: "/message",
+      element: <Messages />
+    },
+  ]);
+  return (
+    <>
+      <div>
+        <Navbar />
+        <RouterProvider router={router} />
+        <Footer />
+      </div>
+    </>
+  );
+}
+```
+
+# State in context of React components
+- In React components, state refers to an object that stores data that can change over time and influences how the component renders.
+- Think of state as a memory for your component — it keeps track of values that may update dynamically (like user input, API data, counters, etc.) and re-renders the UI whenever those values change.
+
+## Key Characteristics of State
+- Mutable – Unlike props, state values can be updated.
+- Component-specific – State belongs to the component where it's defined.
+- Triggers re-render – When state changes, React re-renders the component to reflect the updated UI.
+- Managed by React – You shouldn’t modify it directly; instead, you use React’s functions like setState   or useState.
+  ``` javascript
+  import { useState } from "react";
+  function Counter() {
+    const [count, setCount] = useState(0); // count = state variable, setCount = function to update it
+    return (
+      <div>
+        <p>You clicked {count} times</p>
+        <button onClick={() => setCount(count + 1)}>
+          Click Me
+        </button>
+      </div>
+    );
+  }
+  export default Counter;
+  ```
+  how it works 
+  useState(0) initializes count with 0.
+  Every time the button is clicked, setCount updates the state.
+  React re-renders the component with the new count.
+
+# React component tree 
+Trees are a common way to represent the relationship between entities. They are often used to model UI.
+Render trees represent the nested relationship between React components across a single render.
+With conditional rendering, the render tree may change across different renders. With different prop values, components may render different children components.
+Render trees help identify what the top-level and leaf components are. Top-level components affect the rendering performance of all components beneath them and leaf components are often re-rendered frequently. Identifying them is useful for understanding and debugging rendering performance.
+Dependency trees represent the module dependencies in a React app.
+Dependency trees are used by build tools to bundle the necessary code to ship an app.
+Dependency trees are useful for debugging large bundle sizes that slow time to paint and expose opportunities for optimizing what code is bundled.
+
+# react component lifecycle 
+- Mounting: The phase in which the component is being created and inserted into the DOM.
+- Updating: The phase in which the component is being re-rendered as a result of changes to either its props or state.
+- Unmounting: The phase in which the component is being removed from the DOM. 
