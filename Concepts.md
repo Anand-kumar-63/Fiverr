@@ -274,3 +274,34 @@ Dependency trees are useful for debugging large bundle sizes that slow time to p
 - Mounting: The phase in which the component is being created and inserted into the DOM.
 - Updating: The phase in which the component is being re-rendered as a result of changes to either its props or state.
 - Unmounting: The phase in which the component is being removed from the DOM. 
+
+# Add custom fonts in tailwind css
+- In index.css file  on the top you have to add define the font using @font-face , using url and name for the font
+- @font-face {
+  font-family: 'MyCustomFont';
+  src: url('/path/to/font.woff2') format('woff2'),
+       url('/path/to/font.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+- Then use @theme in your index.css file to include the custom font
+- @theme{
+  --font-custom: 'MyCustomFont', sans-serif;
+}
+- thats How you can use the downloaded custom font in your tailwind css project
+- you can download any fonts zip file from google fonts or any other website and extract the woff and woff2 files and put them in public folder of your react project or you can dowmnload the @font-face kit from google fonts and use it
+- Now you can use this font in your tailwind css project using className
+## using the google fonts imports 
+- You can also use google fonts by importing them in your index.css file
+- @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+- then use @theme in your index.css file to include the custom font
+- @theme{
+  --font-roboto: 'Roboto', sans-serif; // ***this line means that you can use this font using className font-roboto***
+} 
+- Now you can use this font in your tailwind css project using className
+example-
+```javascript
+<div className="font-roboto">
+  This text will use the Roboto font.   
+</div>
+```
