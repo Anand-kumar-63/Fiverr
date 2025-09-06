@@ -10,7 +10,8 @@ const Home = () => {
     <div className='w-[99vw] h-auto p-1 bg-white'>
     <Featured />
     <Trustedby />
-    <Slide Cards={cards}/>
+    {/* in slides later want to include how many slides to show at once */}
+    <Slide Cards={cards}/> 
     <Features />
     </div>
   )

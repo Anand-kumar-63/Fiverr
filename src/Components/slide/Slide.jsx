@@ -29,7 +29,7 @@ const Slide = (Cards) => {
     <ErrorBoundary fallback={<div>hey slider is not working</div>}>
       <div className="relative w-[102rem]">
         <div
-          className="flex flex-row gap-4 overflow-x-hidden w-[70rem] p-10 rounded-2xl mx-auto my-8 border-1 border-gray-200
+          className="flex flex-row gap-4 overflow-x-hidden w-[70rem] p-10 rounded-2xl mx-auto my-8 border-gray-200
           transition all duration-500 ease-in
           "
         >
@@ -50,7 +50,7 @@ const Slide = (Cards) => {
         </div>
         {/* next btn */}
         <button
-          className="absolute top-40 left-10 text-4xl"
+          className="absolute top-40 left-70 text-4xl"
           onClick={() => {
             PrevIndex();
           }}
@@ -59,7 +59,7 @@ const Slide = (Cards) => {
         </button>
         {/* Prev btn */}
         <button
-          className="absolute top-40 right-10 rounded-2xl text-4xl"
+          className="absolute top-40 right-70 rounded-2xl text-4xl"
           onClick={() => {
             Nextindex();
           }}
