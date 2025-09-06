@@ -24,7 +24,7 @@ const Navbar = () => {
   return (
     <>
     <ErrorBoundary fallback={<div>Seomthing went Wrong</div>}>
-      <div className="sticky top-0 relative select-none">
+      <div className="sticky top-0 relative select-none z-50">
         <nav className="flex flex-row justify-around items-center bg-white h-16">
          
 

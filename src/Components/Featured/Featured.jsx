@@ -30,8 +30,8 @@ const Featured = () => {
         <span className="flex flex-row gap-4">
           <h1 className="text-sm">popular :</h1>
           <ul className="flex flex-row gap-5">
-            {tags.map((items) => {
-              return <li className="border-2 px-2 rounded-2xl text-sm">{items}</li>;
+            {tags.map((items , index) => {
+              return <li key={index} className="border-2 px-2 rounded-2xl text-sm">{items}</li>;
             })}
           </ul>
         </span>
