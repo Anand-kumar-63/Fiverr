@@ -28,7 +28,7 @@ function App() {
           <Route index element={<Home />} errorElement={<Errorpage/>}/>
           <Route path="/message/:messageId" element={<Message/>}/>
           <Route path="/messages" element={<Messages/>}/>
-          <Route path="/gigs" element={<Gigs/>}/>
+          <Route path="/gigs/:category" element={<Gigs/>}/>
           <Route path="/order/:orderId" element={<Order />}/>
           <Route path="/Orders" element={<Orders />}/>
           <Route path="/profilepage" element={<Profilepage />}/>

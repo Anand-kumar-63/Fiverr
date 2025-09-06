@@ -1,5 +1,9 @@
-import React from 'react'
+import React from "react";
 const addnewgigs = () => {
-  return <div>add new gigs</div>;
+  return (
+    <div>
+          
+    </div>
+  )
 };
 export default addnewgigs;

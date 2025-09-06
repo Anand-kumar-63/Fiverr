@@ -14,7 +14,7 @@
   font-family: 'Arial MT Medium';
   font-style: normal;
   font-weight: normal;
-  src: local('Arial MT Medium'), url('/public/Fonts/ARIALMTMEDIUM.woff') format('woff');
+  src: local('Arial MT Medium'), url('../public/Fonts/ARIALMTMEDIUM.woff') format('woff');
 }
 
 @import "tailwindcss";
@@ -24,7 +24,9 @@
   --font-bodoni: Bodoni, "sans-serif";
   --font-Arial-md: Arial-md , "sans-serif";
 }
-
+@theme{
+   
+}
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

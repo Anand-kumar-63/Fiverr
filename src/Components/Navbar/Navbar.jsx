@@ -25,7 +25,7 @@ const Navbar = () => {
     <>
     <ErrorBoundary fallback={<div>Seomthing went Wrong</div>}>
       <div className="sticky top-0 relative select-none">
-        <nav className="flex flex-row justify-around items-center bg-transparent my-1 h-16">
+        <nav className="flex flex-row justify-around items-center bg-white h-16">
          
 
          <Link to={"/"}>

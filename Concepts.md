@@ -305,3 +305,53 @@ example-
   This text will use the Roboto font.   
 </div>
 ```
+
+
+# Props passing in react components
+- Array as props
+  - You can pass an array as props to a React component by including it as an attribute when rendering the component.
+  - Example:
+  ```javascript   
+  import React from 'react';
+
+    function MyComponent({ items }) { // when you receive the props you have to destructure it otherwise you have to use props.items as the component is receiving the props object like - { items: [...] }
+      return (
+        <ul>
+          // if you do not destructure the props you have received then you have then you have to use props.items
+          // {props.items.map((item, index) => (
+          //   <li key={index}>{item}</li>
+          // ))}
+          {items.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      );
+    }
+    function App() {
+      const myArray = ['Item 1', 'Item 2', 'Item 3'];
+      return <MyComponent items={myArray} />; //  passing an object of array like - { items: [...] } as props so when you receive it you have to destructure it
+    }
+
+    export default App;
+  ```
+  # React Icons Library
+- React Icons is a popular library that provides a collection of customizable icons for React applications. It allows developers to easily include icons from various icon sets, such as Font Awesome, Material Design, and more, directly into their React components.
+- Installation:
+```bash
+npm install react-icons --save
+``` 
+- Usage:
+```javascript
+import { FaBeer } from 'react-icons/fa';
+
+function App() {
+  return (
+    <div>
+      <h1>Welcome to my app!</h1>
+      <FaBeer />
+    </div>
+  );
+}
+
+export default App;
+```

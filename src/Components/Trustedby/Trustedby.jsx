@@ -7,11 +7,10 @@ const Trustedby = () => {
     {
      trust.map((items , index)=>{
         return (
-        
         <>
         {/* <span  key={index} className= "font-klaika text-gray-400" >{items}</span>  */}
-          <span key={index} className={cn('font-light text-gray-400 text-4xl' , items=="Netflix"&& "font-serif", items=="Google"&&'font-serif' , items=="Amazon"&&'font-light',items=="P&G"&&'font-bodoni',  items=="Meta"&& 'font-sans',items=="Ebay" && 'font-Arial-md')}>{items}</span>
-          </>     
+          <span key={index} className={cn('font-light text-gray-400 text-4xl' , items=="Netflix" && "font-serif", items=="Google"&&'font-serif' , items=="Amazon"&&'font-light',items=="P&G"&&'font-bodoni',  items=="Meta"&& 'font-sans',items=="Ebay" && 'font-Arial-md')}>{items}</span>
+        </>     
      )})
     }
     </div>
