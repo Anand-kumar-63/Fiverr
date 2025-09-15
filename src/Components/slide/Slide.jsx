@@ -9,21 +9,14 @@ const Slide = (Cards) => {
   const [currentindex, setcurrentindex] = useState(0);
   const Arraylength = Cards.Cards.length;
   console.log(Arraylength / 4);
-  // to show four slides at a ti
   function Nextindex() {
     if (currentindex + 4 >= Cards.Cards.length - 1) setcurrentindex(0);
     else setcurrentindex(currentindex + 4);
   }
-  // function to call when to previous index
   function PrevIndex() {
     if (currentindex == 0) setcurrentindex(Cards.Cards.length - 4);
     else setcurrentindex(currentindex - 4);
   }
-  // Funtion to slide the slider
-  // function Slider(currentindex){
-  //   for);
-  // }
-
   console.log(currentindex);
   return (
     <ErrorBoundary fallback={<div>hey slider is not working</div>}>

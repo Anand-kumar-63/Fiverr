@@ -212,3 +212,33 @@ export const gigs = [
     username: "Wilton Hunt",
   },
 ];
+
+
+
+export const productData = [
+  {
+    title: "Professional Web Development",
+    description: "I will build a modern, responsive, and high-performance website tailored to your business needs.",
+    img: "https://placehold.co/400x300/C8A2C8/black?text=Web+Dev"
+  },
+  {
+    title: "Custom Graphic Design",
+    description: "I will create a unique logo, brand identity, or stunning social media graphics that capture your vision.",
+    img: "https://placehold.co/400x300/AED6F1/black?text=Graphics"
+  },
+  {
+    title: "High-Quality Video Editing",
+    description: "I will professionally edit your raw footage into an engaging and polished video for any platform.",
+    img: "https://placehold.co/400x300/FADBD8/black?text=Video+Edit"
+  },
+  {
+    title: "AI & Machine Learning Services",
+    description: "I will develop custom AI models and implement machine learning solutions to solve complex problems.",
+    img: "https://placehold.co/400x300/A3E4D7/black?text=AI+Solutions"
+  },
+  {
+    title: "Creative Writing & Copywriting",
+    description: "I will craft compelling and persuasive content, from blog posts and articles to website copy and ads.",
+    img: "https://placehold.co/400x300/FCF3CF/black?text=Writing"
+  },
+];
