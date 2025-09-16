@@ -355,3 +355,26 @@ function App() {
 
 export default App;
 ```
+
+# Named and defdault exports 
+- in named export while importing you can olny use the name of the export and import shoudl be inside curly braces
+- in default export you can use the name of the export or you can use the any name you want 
+
+# object fit property in css
+- object-fit property is used to specify how the selected image should be resized to fit the container
+- object-fit property has three values
+  - contain: The image is resized to fit the container while maintaining the aspect ratio of the original image.means the whole will be visible as it is in the container even though it can leave some spaces in the edges 
+  - cover: the image is resised according to the heigth and width of the container and the image is cropped to fit the container
+  
+object-contain → shows the whole image, might leave empty space.
+object-cover → fills the container, may crop parts of the image.
+object-fill → stretches the image to fit (can distort).
+object-none → image keeps its size, may overflow.
+object-scale-down → like contain, but won’t scale up.
+
+[Example] of object-cover:
+  <img src={item.pp} alt="profile pic"  className="object-cover h-[30px] w-[30px] rounded-full"/>
+  
+  - The height you have given is the h and w the image is going to set in and you can apply css on it ..isme aspect ratio maintain krne ka jhanjhat nahi hota..
+
+  - When you do object-contain  vo apne aspect ratio ko maitain krne ke liye height and width me kuch gaps leave krdeti hai..

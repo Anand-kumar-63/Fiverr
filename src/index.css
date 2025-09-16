@@ -117,8 +117,12 @@ body {
     justify-content: center;
     align-items: center;
   }
-
   .liborder {
     border-bottom: blue;
+  }
+  .flex2{
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
   }
 }
