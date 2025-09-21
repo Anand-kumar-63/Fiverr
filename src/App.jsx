@@ -7,6 +7,7 @@ import Gigs from "./pages/Gigs/Gigs";
 import Profilepage from "./pages/Profilepage/Profilepage";
 import Order from "./pages/Order/Order";
 import Orders from "./pages/Orders/Orders"
+import Gig from "./pages/Gig/Gig";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -29,14 +30,13 @@ function App() {
           <Route path="/message/:messageId" element={<Message/>}/>
           <Route path="/messages" element={<Messages/>}/>
           <Route path="/gigs" element={<Gigs/>}/>
+          <Route path="/gig/:gigId" element={<Gig/>}/>
           <Route path="/order/:orderId" element={<Order />}/>
           <Route path="/Orders" element={<Orders />}/>
           <Route path="/profilepage" element={<Profilepage />}/>
           <Route path="/addnewgigs" element={<AddnewGigs />}/>
         </Routes>
-      
-      </>
+     </>
   );
 }
-
 export default App;

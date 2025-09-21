@@ -6,7 +6,7 @@ export const gigs = [
     desc: "I will create ai art character from your images and prompts",
     price: 59,
     star: 5,
-    username: "Anna Bell",
+    username: "Anna belle",
   },
   {
     id: 2,
@@ -71,4 +71,5 @@ export const gigs = [
     star: 4,
     username: "Wilton Hunt",
   },
+
 ];

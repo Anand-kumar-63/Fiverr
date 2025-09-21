@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
 import {ErrorBoundary} from "react-error-boundary"
+import { useParams } from "react-router-dom";
 const Navbar = () => {
   const [activedownbar, setactivedownbar] = useState(true);
   const [isuseractive, setuseractive] = useState(true);
   const [togglebtn, settogglebtn] = useState(false);
-
   // useEffect(() => {
   //   document.addEventListener("scroll", () => {
   //     // using window object to see track the scroll event this window.scrolly returns the
