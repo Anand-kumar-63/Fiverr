@@ -120,7 +120,6 @@ body {
   .liborder {
     border-bottom: blue;
   }
-  
   .flex2{
     display: flex;
     flex-direction: row;
