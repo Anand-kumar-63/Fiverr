@@ -58,33 +58,33 @@ const Orders = () => {
         </span>
         <table className="w-[74vw]">
           <tbody>
-          <tr className="grid grid-cols-8 space-x-1 m-1">
-            <td className="bg-red-100 px-12 py-2">Images</td>
-            <td className="col-span-4 bg-red-100 px-12 py-2">Title</td>
-            <td className="bg-red-100 px-12 py-2">Price</td>
-            <td className="bg-red-100 px-12 py-2">Buyers</td>
-            <td className="bg-red-100 px-12 py-2">Contact</td>
-          </tr>
-          {ordersdata.map((item, index) => {
-            return (
-              <tr
-                key={index}
-                className="grid grid-cols-8 text-gray-600 space-x-1 m-1"
-              >
-                <td className="py-8 bg-green-100 p-10">{item.Image}</td>
-                <td className="col-span-4 py-8 bg-green-100 p-10">
-                  {item.Title}
-                </td>
-                <td className="py-8 bg-green-100 p-10">{item.Price}</td>
-                <td className="py-8 bg-green-100 p-10">{item.Buyer}</td>
-                <td className="py-8 bg-green-100 p-10">
-                  <button className="px-4 text-sm bg-green-400 text-white">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
+            <tr className="grid grid-cols-8 space-x-1 m-1">
+              <td className="bg-red-100 px-12 py-2">Images</td>
+              <td className="col-span-4 bg-red-100 px-12 py-2">Title</td>
+              <td className="bg-red-100 px-12 py-2">Price</td>
+              <td className="bg-red-100 px-12 py-2">Buyers</td>
+              <td className="bg-red-100 px-12 py-2">Contact</td>
+            </tr>
+            {ordersdata.map((item, index) => {
+              return (
+                <tr
+                  key={index}
+                  className="grid grid-cols-8 text-gray-600 space-x-1 m-1"
+                >
+                  <td className="py-8 bg-green-100 p-10">{item.Image}</td>
+                  <td className="col-span-4 py-8 bg-green-100 p-10">
+                    {item.Title}
+                  </td>
+                  <td className="py-8 bg-green-100 p-10">{item.Price}</td>
+                  <td className="py-8 bg-green-100 p-10">{item.Buyer}</td>
+                  <td className="py-8 bg-green-100 p-10">
+                    <button className="px-4 text-sm bg-green-400 text-white">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
