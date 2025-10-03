@@ -1,0 +1,37 @@
+import mongoose from "mongoose";
+const orderSchema = new mongoose.Schema({
+    gigId:{
+        type:String,
+        required:true
+    },
+    img:{
+        type:String,
+        required:false
+    },
+    title:{
+        type:String,
+        required:true
+    },
+    Price:{
+        type:Number,
+        required:true
+    },
+    buyerId:{
+         type:String,
+         required:true
+    },
+    customerId:{
+        type:String,
+        required:true
+    },
+    iscompleted:{
+        type:Boolean,
+        default:false
+    },
+    Payment_intent:{
+        type:String,
+        required:true
+    }
+},{
+    timestamps:true
+})
