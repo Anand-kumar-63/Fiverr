@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import UserModel from "../Models/user.js";
 
+// api to handle login
 export const Login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -18,13 +19,12 @@ export const Login = async (req, res) => {
         if (iscorrectpassword) {
             res.status(400).send("wrong email or password");
         }
-        const token = jwt.sign({ userId: user._id }, 'X9912', {
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_KEY, {
             expiresIn: '1h',
         });
-        console.log(token);
-        res.cookie("access_token",token,{
-            httpOnly:true,
-            expires:new Date(Date.now()+90000)
+        res.cookie("access_token", token, {
+            httpOnly: true,
+            expires: new Date(Date.now() + 900000)
         }).send("Login succesfull");
     }
     catch (error) {
@@ -34,6 +34,7 @@ export const Login = async (req, res) => {
         })
     }
 }
+// Api to handle singnup
 export const Signup = async (req, res) => {
     try {
         console.log("hey there you are trying yo signup");
@@ -59,6 +60,7 @@ export const Signup = async (req, res) => {
     }
 }
 
+// api tp handle Getuser 
 export const Getuser = async (req, res) => {
     try {
         const user = await UserModel.findOne();
@@ -75,5 +77,24 @@ export const Getuser = async (req, res) => {
         res.status(400).json({
             message: error
         })
+    }
+}
+// Api to handle the user deletions 
+export const Deleteuser = async (req , res) => {
+    try {
+        const user = await UserModel.findById(req.params.id);
+        if (!user) res.status(400).send("User not found");
+        
+        if (user._id.toString() !== req.userId) {
+            res.send("You can delete only your account");
+        }
+        await UserModel.findByIdAndDelete(req.params.id);
+        res.status(200).json({
+            payload,
+            message: "Deleted"
+        })
+    }
+    catch (error) {
+        res.status(402).send("Error in deleting the user", error);
     }
 }
