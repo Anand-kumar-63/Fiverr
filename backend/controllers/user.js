@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { CreatenewError } from "../utils/createnewError.js";
 import UserModel from "../Models/user.js";
 
 // api to handle login
-export const Login = async (req, res) => {
+export const Login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
         const user = await UserModel.findOne({ email: email });
@@ -11,13 +12,11 @@ export const Login = async (req, res) => {
             res.send("User not found");
         }
         const iscorrectpassword = bcrypt.compare(password, user.password, (error, result) => {
-            if (error) {
-                res.status(400).send(error, "Error in compairing the hashed password");
-            }
+            if (error) { next(error); }
             console.log(result);
         })
         if (iscorrectpassword) {
-            res.status(400).send("wrong email or password");
+            next(new Error("Invalid Email or password"));
         }
         const token = jwt.sign({ userId: user._id }, process.env.JWT_KEY, {
             expiresIn: '1h',
@@ -29,15 +28,19 @@ export const Login = async (req, res) => {
     }
     catch (error) {
         console.log("Error in login please try again");
-        res.status(400).json({
-            message: "Login error"
-        })
+        next(new Error("Login Error"));
     }
 }
 // Api to handle singnup
-export const Signup = async (req, res) => {
+export const Signup = async (req, res, next) => {
     try {
-        console.log("hey there you are trying yo signup");
+        const { email } = req.body;
+        // const user = await UserModel.findOne({email:email});
+        // if(user){
+        //     console.log("User already exits");
+        //     next(new Error("User already Exits"));
+        // }
+        console.log("Signup");
         const { password } = req.body;
         const data = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -45,46 +48,43 @@ export const Signup = async (req, res) => {
             ...data,
             password: hashedPassword,
         })
-        newuser.save();
-        if (!newuser) {
-            console.log("Error in creating a user");
-            res.status(500).send("Error in creating a user");
-        }
+        newuser.save()
         res.send(newuser);
     }
     catch (error) {
+        if (err.code === 11000) {
+            err.statusCode = 400;
+            err.message = "User already exists";
+        }
         console.log(error, "Error in creating a user");
-        res.status(400).json({
-            Message: error,
-        })
+        next(error);
     }
 }
 
 // api tp handle Getuser 
-export const Getuser = async (req, res) => {
+export const Getuser = async (req, res, next) => {
     try {
-        const user = await UserModel.findOne();
+        const user = await UserModel.findById(req.params.id);
         if (!user) {
-            res.status(401).send("Error in getting the user");
+            next(new Error("No such user exists"))
         }
         res.status(200).json({
-            message: "User found",
+            succes: true,
+            message: "User Found",
             user: user
         })
     }
     catch (error) {
         console.log(error, "Error in getting the user");
-        res.status(400).json({
-            message: error
-        })
+        next(new Error("Get user Error"));
     }
 }
 // Api to handle the user deletions 
-export const Deleteuser = async (req , res) => {
+export const Deleteuser = async (req, res, next) => {
     try {
         const user = await UserModel.findById(req.params.id);
-        if (!user) res.status(400).send("User not found");
-        
+        if (!user) next(new Error("Error in delete user"));
+
         if (user._id.toString() !== req.userId) {
             res.send("You can delete only your account");
         }
@@ -95,6 +95,6 @@ export const Deleteuser = async (req , res) => {
         })
     }
     catch (error) {
-        res.status(402).send("Error in deleting the user", error);
+        next(new Error("Error Delete USER:"))
     }
 }

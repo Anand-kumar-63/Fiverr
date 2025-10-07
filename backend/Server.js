@@ -14,11 +14,17 @@ app.use(cookieParser()); // middleware
 app.use(express.json()); // middleware
 app.use(cors());
 
-
+// User Auth Routes 
 app.use('/userapi', router);
 app.use('/check', (req, res) => {
   res.send('Hello World from ES Modules Express!');
 });
+
+//Error handleing Middleware
+app.use((err, req, res, next) => {
+  console.log("Error middleware:");
+  res.status(400).send(err.message);
+})
 
 ConnectDB().then((result) => {
   app.listen(3000, () => {
