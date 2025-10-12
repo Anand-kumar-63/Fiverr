@@ -25,7 +25,10 @@ export const Login = async (req, res, next) => {
         res.cookie("access_token", token, {
             httpOnly: true,
             expires: new Date(Date.now() + 900000)
-        }).send("Login succesfull");
+        }).json({
+            message:"Login successfull",
+            user:user
+        })
      }
     catch (error) {
         console.log("Error in login please try again");

@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const [error, seterror] = useState("");
 
   async function handlesubmit(event) {
     event.preventDefault();
@@ -17,9 +20,14 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      console.log(user);
+      if (!user) {
+        seterror("Invalid email or password");
+      }
+      localStorage.setItem("currect user", JSON.stringify(user.data.user));
+      navigate("/");
+      console.log(user.data.user);
     } catch (err) {
-        console.log("Error",err.message)
+      console.log("Error", err.message);
     }
   }
   return (
@@ -51,6 +59,7 @@ const Login = () => {
         <input type="submit" value="submit" />
         <input type="reset" value="Reset" />
       </form>
+      {error && <div>{error}</div>}
     </div>
   );
 };
