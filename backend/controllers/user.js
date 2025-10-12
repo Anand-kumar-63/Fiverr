@@ -21,11 +21,12 @@ export const Login = async (req, res, next) => {
         const token = jwt.sign({ userId: user._id }, process.env.JWT_KEY, {
             expiresIn: '1h',
         });
+        console.log(user);
         res.cookie("access_token", token, {
             httpOnly: true,
             expires: new Date(Date.now() + 900000)
         }).send("Login succesfull");
-    }
+     }
     catch (error) {
         console.log("Error in login please try again");
         next(new Error("Login Error"));
@@ -35,11 +36,6 @@ export const Login = async (req, res, next) => {
 export const Signup = async (req, res, next) => {
     try {
         const { email } = req.body;
-        // const user = await UserModel.findOne({email:email});
-        // if(user){
-        //     console.log("User already exits");
-        //     next(new Error("User already Exits"));
-        // }
         console.log("Signup");
         const { password } = req.body;
         const data = req.body;
@@ -96,5 +92,19 @@ export const Deleteuser = async (req, res, next) => {
     }
     catch (error) {
         next(new Error("Error Delete USER:"))
+    }
+}
+export const Logout = () => {
+    try {
+        res.clearCookie("access_token",{
+            samesite:"none",
+            secure:true
+        }).status(200).send("user Loggedout");
+    }
+    catch(error){
+        console.log(error);
+        res.status(400).json({
+            message:"Error in logout"
+        })
     }
 }

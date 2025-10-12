@@ -20,7 +20,8 @@ import Messages from "./pages/Messages/Messages";
 import Errorpage from "./pages/Errorpage/Errorpage";
 import AddnewGigs from './pages/AddnewGigs/AddnewGigs'
 import Message from "./pages/Message/Message";
-
+// import { Login } from "../../backend/controllers/user";
+import Login from "./pages/Login/login";
 function App() {  
   return (
     <>
@@ -35,6 +36,7 @@ function App() {
           <Route path="/Orders" element={<Orders />}/>
           <Route path="/profilepage" element={<Profilepage />}/>
           <Route path="/addnewgigs" element={<AddnewGigs />}/>
+          <Route path="/Login" element={<Login/>}></Route>
         </Routes>
      </>
   );

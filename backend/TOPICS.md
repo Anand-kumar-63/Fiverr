@@ -73,3 +73,10 @@ console.log(users);
 ```
 ## mongodb query prototype 
 => Read More - https://mongoosejs.com/docs/api/query.html#Query.prototype.geometry()
+
+
+# Local storage 
+Addding data in localstorage 
+localstorage.setitem(key:String , value:String) // json.stringify(value)
+.getitem(key)
+.clearitem 

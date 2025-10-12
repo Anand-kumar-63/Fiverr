@@ -12,7 +12,10 @@ const app = express();
 dotenv.config();
 app.use(cookieParser()); // middleware
 app.use(express.json()); // middleware
-app.use(cors());
+app.use(cors({
+  origin:"http://localhost:5173",
+  credentials:true
+}));
 
 // User Auth Routes 
 app.use('/userapi', router);
