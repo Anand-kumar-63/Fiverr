@@ -65,16 +65,14 @@ const Features = () => {
           </video>
         </section>
       </div>
-      {/*explore more MarketPlce  */}
       <div className="w-[98vw] h-100 m-2 p-20 overflow-hidden">
-        {/* on applying translate to the child element doesnt increases the size of the the parent element sometimes it can happen due to block scope of the element so you just have to give overflow hidden to the parent element  */}
         <h1 className="text-4xl translate-x-22 mb-4">
           Explore the MarketPlace
         </h1>
         <section className="grid grid-cols-5 h-full">
-          {Object.keys(market).map((key) => {
+          {Object.keys(market).map((key,index) => {
             return (
-              <div className="flex flex-col justify-center items-center-safe">
+              <div className="flex flex-col justify-center items-center-safe" key={index}>
                 <span className="text-4xl mb-2">{market[key]}</span>
                 <h1 className="border-t-1 border-gray-500">{key}</h1>
               </div>
@@ -82,10 +80,7 @@ const Features = () => {
           })}
         </section>
       </div>
-
-      {/* Explore the bussiness */}
       <div className="flex flex-row items-center bg-blue-950 h-120 p-10 text-white">
-        {/* some text  */}
         <section className="w-200 ml-34">
           <h1 className="text-4xl">
             Fiverr <i>business</i>
@@ -123,13 +118,9 @@ const Features = () => {
 
           <button className="px-6 py-1 rouden-md bg-green-600 mt-4">Explore Fiverr Bussiness</button>
         </section>
-        {/* Img section  */}
         <img src="/public/images/Bussiness.png" alt="bussiness image" height={100} width={500}/>
       </div>
-
-      {/* Bussiness cards carousal */}
        <div>
-       {/* <Slide /> */}
        </div>
     </div>
   );

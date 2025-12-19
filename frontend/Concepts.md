@@ -1,22 +1,16 @@
 # Conditional css using clsx and tailwindmerge
-
 - using clsx and Tailwindmerge
   make a cn.js file in utils folder
-
 ```javascript
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 ```
-
 - now import this in any component and use it for conditional css application
-
 ```javascript
 import { cn } from "../utils/cn";
-
 function MyComponent({ isActive }) {
   return (
     <div className={cn("base-class", { "active-class": isActive })}>
@@ -25,9 +19,7 @@ function MyComponent({ isActive }) {
   );
 }
 ```
-
 - or you can directly use clsx
-
 ```javascript
 import { clsx } from "clsx";
 
@@ -39,11 +31,8 @@ function MyComponent({ isActive }) {
   );
 }
 ```
-
 **_window object_**
-
 # Scroll tracking using Window object
-
 - window.addEventListener('scroll', () => {
 - const scrollY = window.scrollY;
 - console.log('Scroll position:', scrollY);
@@ -51,11 +40,10 @@ function MyComponent({ isActive }) {
 
 # Hooks
 - [use state]
-
 - [use params]
   use params is used to access dynamic route parameters from the current URL.
   Example: If your route is defined as /user/:id, you can access the id parameter using useParams.
-  Example - 
+  Example:- 
   ```javascript
   import { useParams } from "react-router-dom";
   function UserProfile() {
@@ -94,7 +82,7 @@ function MyComponent({ isActive }) {
   2. useSearchParams (from external libraries)
   This is not from React Router. It usually comes from libraries like:
   react-use->(useSearchParam)
-  use-query-params->(useSearchParan)
+  use-query-params->(useSearchParam)
   Purpose: A lightweight way to read a single query parameter.
   Return Value:
   -Typically returns the value of the specific query param.
@@ -143,13 +131,12 @@ function MyComponent({ isActive }) {
 - [use Location] (**_form react-router-dom_**)
 
   \*is used to get information about the current URL in a React app that uses React Router.
-  - It gives you details like:
+    - It gives you details like:
     - The current path (e.g., /about)
     - Any query parameters (e.g., ?id=42)
     - The hash (e.g., #section1)
     - And other location-related info
     - example:
-
       ```javascript
       import { useLocation } from "react-router-dom";
       function MyComponent() {
@@ -177,12 +164,15 @@ function MyComponent({ isActive }) {
 - [useContext]
 
 # React-router-dom
-Read more - https://reactrouter.com/api/components/Route
+Read more - 
+https://reactrouter.com/api/components/Route
 https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
 https://reactrouter.com/start/declarative/navigating
 https://reactrouter.com/start/declarative/routing
+
 ## react router installation and setup documentation
 https://reactrouter.com/6.30.1/start/tutorial
+
 # Read more about
 - url params and search params hook , useSearchParams FROM react-router-dom documentation
 read more - https://reactrouter.com/docs/en/v6/hooks/useSearchParams

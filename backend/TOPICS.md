@@ -77,6 +77,14 @@ console.log(users);
 
 # Local storage 
 Addding data in localstorage 
-localstorage.setitem(key:String , value:String) // json.stringify(value)
-.getitem(key)
-.clearitem 
+
+// to setitem in local storage
+- localstorage.setitem(key:String , value:String) // json.stringify(value)
+- const data = Localstorge.getitem(key)
+  const parseddata = json.parse(data);
+
+// to clear the whole local storage 
+- .clearitem 
+
+// to remove any specific data from using the key 
+- Localstorge.removeItem(keyname)

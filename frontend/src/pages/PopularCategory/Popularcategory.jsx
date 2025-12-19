@@ -18,7 +18,6 @@ const Popularcategory = () => {
   return (
     <div>
       <h1>Explore Popular Categories on Fiverr</h1>
-      {/* buttons to explore something new */}
       <section>
         <ul>
           {btn.map((item, index) => {
@@ -30,14 +29,11 @@ const Popularcategory = () => {
           })}
         </ul>
       </section>
-
-      {/*different Cards showing the descripttion about the categories */}
      <section>
       <div>
        <span>
         <img src="" alt="" />
        </span>
-
         <div>
             <span>
             <img src="" alt="" />

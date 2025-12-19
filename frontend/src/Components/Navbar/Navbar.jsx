@@ -1,108 +1,124 @@
 import { useState, useEffect } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
-import {ErrorBoundary} from "react-error-boundary"
+import { useNavigate } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
 import { useParams } from "react-router-dom";
+// import { useEffectEvent } from "react";
 const Navbar = () => {
-  const [activedownbar, setactivedownbar] = useState(true);
-  const [isuseractive, setuseractive] = useState(true);
-  const [togglebtn, settogglebtn] = useState(false);
-  // useEffect(() => {
-  //   document.addEventListener("scroll", () => {
-  //     // using window object to see track the scroll event this window.scrolly returns the
-  //     // the amount of pixels by which the page is scrolled vertically
-  //     window.scrollY > 0 ? setactivedownbar(true) : setactivedownbar(false);
-  //   });
-  // }, []);
-  // you have to fetch the user using session
-  const user = {
-    username: "Feineerr",
-    email: "Email@gmail.com",
-    password: "passowrd",
-  };
+  const navigate = useNavigate();
+  const [ activedownbar , setactivedownbar ] = useState(true);
+  const [ isuseractive , setuseractive ] = useState(true);
+  const [ togglebtn , settogglebtn ] = useState(false);
+  const [ user , setuser] = useState({
+    username: "anand",
+    email: "anand@gmail.com",
+  });
+  useEffect(() => {
+    const currectuser = localStorage.getItem("currect user");
+    const parseduser = JSON.parse(currectuser);
+    console.log(parseduser.username);
+    console.log(parseduser.email);
+    if (parseduser) {
+      setuser({
+        username: parseduser.username,
+        email: parseduser.email,
+      });
+    }
+  },[]);
+  // this ensures that this Runs Only 
+  // this logout button clears the localstorage 
+  
+  function logoutuser() {
+    const logout = document.getElementById("logout");
+    logout.addEventListener("click", () => {
+      localStorage.clear();
+    });
+  }
 
   return (
     <>
-    <ErrorBoundary fallback={<div>Seomthing went Wrong</div>}>
-      <div className="sticky top-0 relative select-none z-50">
-        <nav className="flex flex-row justify-around items-center bg-white h-16">
-         
-
-         <Link to={"/"}>
-          <div>
-            <span className="text-3xl font-extrabold" id="Logo">
-              Fiverr
-            </span>
-            <span className="text-green-400 text-3xl" id="dot">
-              .
-            </span>
-          </div>
-          </Link>
-         
-          <div className="flex flex-row justify-between items-center mt-1">
-            <ul className="flex flex-row gap-5 text-md">
-              <li>Fiverr Bussiness</li>
-              <li>Explore</li>
-              <li>English</li>
-              {!isuseractive && <li>Sign-in</li>}
-              <li>Became a Seller</li>
-            </ul>
-           {!isuseractive && <button className="ml-2 bg-green-300 py-2 px-6 rounded-sm bg-transparent border-2 border-green-300">
-              Join in
-            </button>
-}
-            {/* profile  */}
-            {isuseractive && (
-              <div
-                className="ml-5"
-                onClick={() => {
-                  settogglebtn(!togglebtn);
-                }}
-              >
-                {/* <img src="" alt=""/> */}
-
-                <span>
-                  {user.username}
-                  <br />
-                  {user.email}
+      <ErrorBoundary fallback={<div>Seomthing went Wrong</div>}>
+        <div className="sticky top-0 relative select-none z-50">
+          <nav className="flex flex-row justify-around items-center bg-white h-16">
+            <Link to={"/"}>
+              <div>
+                <span className="text-3xl font-extrabold" id="Logo">
+                  Fiverr
+                </span>
+                <span className="text-green-400 text-3xl" id="dot">
+                  .
                 </span>
               </div>
-            )}
-          </div>
-        </nav>
-        <hr className="text-gray-300" />
+            </Link>
+            <div className="flex flex-row justify-between items-center mt-1">
+              <ul className="flex flex-row gap-5 text-md">
+                <li>Fiverr Bussiness</li>
+                <li>Explore</li>
+                <li>English</li>
+                {!isuseractive && <li>Sign-in</li>}
+                <li>Became a Seller</li>
+              </ul>
+              {!isuseractive && (
+                <button className="ml-2 bg-green-300 py-2 px-6 rounded-sm bg-transparent border-2 border-green-300">
+                  Join in
+                </button>
+              )}
+              {isuseractive && (
+                <div
+                  className="ml-5"
+                  onClick={() => {
+                    settogglebtn(!togglebtn);
+                  }}
+                >
+                  <span>
+                    {user.username || "tanziro"}
+                    <br />
+                    {user.email || "tanziro@gmail.com"}
+                  </span>
+                </div>
+              )}
+            </div>
+          </nav>
+          <hr className="text-gray-300" />
+          {togglebtn && (
+            <div className="bg-amber-50 w-40 flex justify-center absolute top-18 right-55 cursor-pointer p-1 rounded-sm">
+              <ul className="flex flex-col text-gray-400">
+                <Link to={"/gigs"}>
+                  <li>Gigs</li>
+                </Link>
+                <Link to={"/addnewgigs"}>
+                  <li>Add new Gigs</li>
+                </Link>
+                <Link to={"/orders"}>
+                  <li>Orders</li>
+                </Link>
+                <Link to={"/messages"}>
+                  <li>Messages</li>
+                </Link>
 
-        {/*  pathname=="home" &&*/ 
-         togglebtn &&  
-         (
-          <div className="bg-amber-50 w-40 flex justify-center absolute top-18 right-55 cursor-pointer p-1 rounded-sm">
-            <ul className="flex flex-col text-gray-400">
-              <Link to={'/gigs'}><li>Gigs</li></Link>
-              <Link to={'/addnewgigs'}> <li>Add new Gigs</li></Link>
-              <Link to={'/orders'}><li>Orders</li></Link>
-              <Link to={'/messages'}><li>Messages</li></Link>
-              <li>Logout</li>
-            </ul>
-          </div>
-        )}
-
-        {/* navbar menu at the bottom */}
-        {activedownbar && (
-          <div className="bg-gray-100 flex1 p-1">
-            <ul className="font-light text-gray-400 text-sm flex flex-row gap-[46px]">
-              <li>Graphic Desgin</li>
-              <li>Video Animation</li>
-              <li>Writing and Tanslation</li>
-              <li>Ai Services</li>
-              <li>Digital Marketing</li>
-              <li>Music & Audio</li>
-              <li>Bussiness</li>
-              <li>Lifestyle</li>
-              <li>Programming & Tech</li>
-            </ul>
-          </div>
-        )}
-      </div>
+                <li onClick={logoutuser} id="logout">
+                  Logout
+                </li>
+              </ul>
+            </div>
+          )}
+          {activedownbar && (
+            <div className="bg-gray-100 flex1 p-1">
+              <ul className="font-light text-gray-400 text-sm flex flex-row gap-[46px]">
+                <li>Graphic Desgin</li>
+                <li>Video Animation</li>
+                <li>Writing and Tanslation</li>
+                <li>Ai Services</li>
+                <li>Digital Marketing</li>
+                <li>Music & Audio</li>
+                <li>Bussiness</li>
+                <li>Lifestyle</li>
+                <li>Programming & Tech</li>
+              </ul>
+            </div>
+          )}
+        </div>
       </ErrorBoundary>
     </>
   );

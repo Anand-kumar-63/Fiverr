@@ -7,19 +7,24 @@ import Slide from '../../Components/slide/slide.jsx'
 import {cards} from "../../data.js"
 import { productData } from '../../data.js'
 import Features from '../../Components/Features/Features'
+import { useNavigate } from 'react-router-dom';
 const Home = () => {
-  return (
+ const navigate = useNavigate();
+ const user = localStorage.getItem("currect user");
+ const parseduser = JSON.parse(user);
+ if(!parseduser){
+   navigate("/Login");
+ }  
+ return (
     <div className='w-[99vw] h-auto p-1 bg-white'>
     <Featured />
     <Trustedby />
-    {/* in slides later want to include how many slides to show at once */}
     <Slide Cards={cards}/> 
     <Features />
-    {/* Products */}
     <Slide Cards={productData}/>
     <Footer />
     </div>
   )
-}
+};
 
 export default Home

@@ -8,6 +8,7 @@ import Profilepage from "./pages/Profilepage/Profilepage";
 import Order from "./pages/Order/Order";
 import Orders from "./pages/Orders/Orders"
 import Gig from "./pages/Gig/Gig";
+import Signup from "./pages/Signup/Signup";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -23,6 +24,7 @@ import Message from "./pages/Message/Message";
 // import { Login } from "../../backend/controllers/user";
 import Login from "./pages/Login/login";
 function App() {  
+  
   return (
     <>
       <Navbar />
@@ -37,6 +39,7 @@ function App() {
           <Route path="/profilepage" element={<Profilepage />}/>
           <Route path="/addnewgigs" element={<AddnewGigs />}/>
           <Route path="/Login" element={<Login/>}></Route>
+          <Route path="/Signup" element={<Signup/>}></Route>
         </Routes>
      </>
   );
