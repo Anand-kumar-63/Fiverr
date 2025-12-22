@@ -1,10 +1,6 @@
-
 import UserModel from "../Models/user.js";
-
-// api to handle login
-
 // api tp handle Getuser 
-export const Getuser = async ( req , res , next ) => {
+export const Getuser = async (req, res, next) => {
     try {
         const user = await UserModel.findById(req.params.id);
         if (!user) {
@@ -22,30 +18,35 @@ export const Getuser = async ( req , res , next ) => {
     }
 }
 
-// Api to handle the user deletions 
-export const Deleteuser = async (req, res, next) => {
+// Api to handle the user deletion 
+export const Deleteuser = async () => {
     try {
-        const user = await UserModel.findById(req.params.id);
-        if (!user) next(new Error("Error in delete user"));
+        const existinguser = await UserModel.findById(req.params.id);
+        if (!existinguser) return res.status(400).send("user doesnt exist");
 
-        if (user._id.toString() !== req.userId) {
-            res.send("You can delete only your account");
-        }
-        await UserModel.findByIdAndDelete(req.params.id);
-        res.status(200).json({
-            message: "Deleted"
+        const token = res.cookies.access_token;
+        if (!token) return res.status(401).send("unauthorised user");
+
+        jwt.verify(token, process.env.JWT_KEY, async (error, payload) => {
+            if (payload.userId !== existinguser._id.toString()) {
+                return res.status(401).send("you can only delete your account");
+            }
+            await UserModel.findByIdAndDelete(req.params.id);
+            res.status(200).json({ message: "user Deleted succesfully" })
         })
     }
-    catch (error) {
-        next(new Error("Error Delete USER:"))
+    catch (err) {
+        res.status(401).json({
+            message: "Error in deleting the user",
+        })
     }
 }
 
-export const updateUser = (req,res)=>{
-    try{
+export const updateUser = (req, res) => {
+    try {
 
     }
-    catch(error){
+    catch (error) {
 
     }
 }

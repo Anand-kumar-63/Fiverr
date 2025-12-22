@@ -1,7 +1,7 @@
 import express from "express"
-const router = express.Router();
+const gigRouter = express.Router();
 
-router.post("/regsiter/",()=>{});
-router.post("/login",()=>{});
+gigRouter.post("/regsiter/",()=>{});
+gigRouter.post("/login",()=>{});
 
-export default router;
+export default gigRouter;

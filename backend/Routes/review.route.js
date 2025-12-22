@@ -1,7 +1,7 @@
 import express from "express"
-const router = express.Router();
+const reviewrouter = express.reviewrouter();
 
-router.post("/regsiter/",()=>{});
-router.post("/login",()=>{});
+reviewrouter.post("/regsiter/",()=>{});
+reviewrouter.post("/login",()=>{});
 
-export default router;
+export default reviewrouter;

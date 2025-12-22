@@ -1,7 +1,7 @@
 import express from "express"
-const router = express.Router();
+const orderrouter = express.Router();
 
-router.post("/regsiter/",()=>{});
-router.post("/login",()=>{});
+orderrouter.post("/regsiter/",()=>{});
+orderrouter.post("/login",()=>{});
 
-export default router;
+export default orderrouter;
