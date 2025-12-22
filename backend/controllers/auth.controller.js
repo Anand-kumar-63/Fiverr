@@ -1,9 +1,7 @@
+import UserModel from "../Models/user"
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import { CreatenewError } from "../utils/createnewError.js";
-import UserModel from "../Models/user.js";
+import bcrypt from "brcypt";
 
-// api to handle login
 export const Login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -36,11 +34,9 @@ export const Login = async (req, res, next) => {
     }
 }
 // Api to handle singnup
-export const Signup = async (req, res, next) => {
+export const Signup = async ( req , res , next ) => {
     try {
-        const { email } = req.body;
-        console.log("Signup");
-        const { password } = req.body;
+        const { email  , password } = req.body;
         const data = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
         const newuser = new UserModel({
@@ -60,43 +56,6 @@ export const Signup = async (req, res, next) => {
     }
 }
 
-// api tp handle Getuser 
-export const Getuser = async (req, res, next) => {
-    try {
-        const user = await UserModel.findById(req.params.id);
-        if (!user) {
-            next(new Error("No such user exists"))
-        }
-        res.status(200).json({
-            succes: true,
-            message: "User Found",
-            user: user
-        })
-    }
-    catch (error) {
-        console.log(error, "Error in getting the user");
-        next(new Error("Get user Error"));
-    }
-}
-// Api to handle the user deletions 
-export const Deleteuser = async (req, res, next) => {
-    try {
-        const user = await UserModel.findById(req.params.id);
-        if (!user) next(new Error("Error in delete user"));
-
-        if (user._id.toString() !== req.userId) {
-            res.send("You can delete only your account");
-        }
-        await UserModel.findByIdAndDelete(req.params.id);
-        res.status(200).json({
-            payload,
-            message: "Deleted"
-        })
-    }
-    catch (error) {
-        next(new Error("Error Delete USER:"))
-    }
-}
 export const Logout = () => {
     try {
         res.clearCookie("access_token",{
