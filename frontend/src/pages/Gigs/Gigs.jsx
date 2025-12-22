@@ -1,12 +1,12 @@
-import React, { use, useState } from "react";
-import { useLocation, useParams } from "react-router";
+import React, { useState } from "react";
+// import { useLocation, useParams } from "react-router";
 import { IoMdHeart } from "react-icons/io";
 import { FaStar } from "react-icons/fa6";
 import { Link } from "react-router";
 import { gigs } from "./Data";
 import { useSearchParams } from "react-router";
 const Gigs = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [ searchParams , setSearchParams] = useSearchParams();
   console.log(searchParams.get("category"));
 
   const [opensort, setopensort] = useState("");
@@ -66,7 +66,7 @@ const Gigs = () => {
       <div className="gap-x-10 space-y-4 grid grid-cols-3 p-2">
         {gigs.map((item, index) => {
           return (
-            <Link to={`/gig/${item.id}`}>
+            <Link to={`/gig/${item.id}`} key={index} >
               <div key={index} className="bg-gray-50 rounded-xl">
                 <div className="w-[100%]">
                   <img

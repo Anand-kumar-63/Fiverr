@@ -368,3 +368,87 @@ object-scale-down → like contain, but won’t scale up.
   - The height you have given is the h and w the image is going to set in and you can apply css on it ..isme aspect ratio maintain krne ka jhanjhat nahi hota..
 
   - When you do object-contain  vo apne aspect ratio ko maitain krne ke liye height and width me kuch gaps leave krdeti hai..
+
+
+## jsonconfig.json
+What is jsconfig.json?
+jsconfig.json tells TypeScript language services (used by VS Code and other editors) how your JavaScript project is structured.
+Even if your project is pure JavaScript, VS Code still uses this file to:
+Understand your folder structure
+Resolve import paths
+Provide autocomplete, go-to-definition, and error checking
+In TypeScript projects, this role is played by tsconfig.json.  
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  }
+}
+```
+1. "baseUrl": "."
+This tells the compiler:
+“Treat the project root as the base directory for imports.”
+Without this, path aliases will not work.
+
+2. "paths" — Path Alias Mapping
+"paths": {
+  "@/*": ["./src/*"]
+}
+
+This creates an alias.
+Meaning:
+@/something → src/something
+
+Example: without alias (bad DX):
+import Button from "../../../../components/ui/button";
+Example: with alias (clean, scalable):
+import Button from "@/components/ui/button";
+
+So:
+@ → src
+@/components/ui/button → src/components/ui/button
+Why is this important for shadcn/ui?
+shadcn assumes you are using absolute imports
+
+shadcn generates imports like:
+import { cn } from "@/lib/utils";
+
+If you don’t have this alias configured:
+VS Code shows red errors
+Imports break
+ESLint complains
+
+Autocomplete fails
+That’s why people on Reddit recommend adding this file.
+Does this affect runtime (Vite / Webpack)?
+
+⚠️ Important point:
+jsconfig.json is editor-level only.
+You still need to configure your bundler:
+
+If you are using Vite
+// vite.config.js
+import path from "path";
+
+export default {
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src")
+    }
+  }
+};
+
+If you are using Webpack
+resolve: {
+  alias: {
+    "@": path.resolve(__dirname, "src")
+  }
+}
+
+Otherwise, your app will compile but crash at runtime.

@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 // import { useEffectEvent } from "react";
 const Navbar = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [ activedownbar , setactivedownbar ] = useState(true);
   const [ isuseractive , setuseractive ] = useState(true);
   const [ togglebtn , settogglebtn ] = useState(false);
@@ -17,8 +17,8 @@ const Navbar = () => {
   useEffect(() => {
     const currectuser = localStorage.getItem("currect user");
     const parseduser = JSON.parse(currectuser);
-    console.log(parseduser.username);
-    console.log(parseduser.email);
+    // console.log(parseduser.username);
+    // console.log(parseduser.email);
     if (parseduser) {
       setuser({
         username: parseduser.username,
@@ -26,8 +26,6 @@ const Navbar = () => {
       });
     }
   },[]);
-  // this ensures that this Runs Only 
-  // this logout button clears the localstorage 
   
   function logoutuser() {
     const logout = document.getElementById("logout");

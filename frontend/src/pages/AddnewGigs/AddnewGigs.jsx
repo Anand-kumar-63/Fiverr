@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import Footer from "../../Components/Footer/Footer";
-import { TbCategory } from "react-icons/tb";
+// import { TbCategory } from "react-icons/tb";
 const AddNewGigs = () => {
   return (
     <div className="p-8 md:p-20 flex flex-col items-center space-y-8">

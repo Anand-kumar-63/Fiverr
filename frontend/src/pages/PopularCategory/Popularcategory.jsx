@@ -6,14 +6,12 @@ const Popularcategory = () => {
     "Logo Desgin",
     "Social media Marketing",
   ];
-  const coursedetais = {
-    description:"lorem",
-
-  }
-
-  const ratingsystem = ()=>{
-
-  }
+  
+  // const coursedetais = {
+  //   description:"lorem",
+  // }
+  // const ratingsystem = ()=>{
+  // }
 
   return (
     <div>
