@@ -1,6 +1,6 @@
-import UserModel from "../Models/user"
+import UserModel from "../Models/user.js"
 import jwt from "jsonwebtoken";
-import bcrypt from "brcypt";
+import bcrypt from "bcrypt"
 
 export const Login = async (req, res, next) => {
     try {
@@ -24,19 +24,20 @@ export const Login = async (req, res, next) => {
             httpOnly: true,
             expires: new Date(Date.now() + 900000)
         }).json({
-            message:"Login successfull",
-            user:user
+            message: "Login successfull",
+            user: user
         })
-     }
+    }
     catch (error) {
         console.log("Error in login please try again");
         next(new Error("Login Error"));
     }
 }
+
 // Api to handle singnup
-export const Signup = async ( req , res , next ) => {
+export const Signup = async (req, res, next) => {
     try {
-        const { email  , password } = req.body;
+        const { email, password } = req.body;
         const data = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
         const newuser = new UserModel({
@@ -58,15 +59,15 @@ export const Signup = async ( req , res , next ) => {
 
 export const Logout = () => {
     try {
-        res.clearCookie("access_token",{
-            samesite:"none",
-            secure:true
+        res.clearCookie("access_token", {
+            samesite: "none",
+            secure: true
         }).status(200).send("user Loggedout");
     }
-    catch(error){
+    catch (error) {
         console.log(error);
         res.status(400).json({
-            message:"Error in logout"
+            message: "Error in logout"
         })
     }
 }

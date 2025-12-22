@@ -2,7 +2,7 @@ import express from "express";
 import { jwtverify } from "../middlewares/jwtverify.js";
 // import { updateUser } from "../controllers/user.controllers.js";
 import {Getuser, Deleteuser, updateUser} from "../controllers/user.controllers.js"
-const userrouter = express.userrouter({ mergeParams: true });
+const userrouter = express.Router({ mergeParams: true });
 
 // user apis to signup , login , getuser , deleteuser
 userrouter.get("/getuser/:id", jwtverify , Getuser);

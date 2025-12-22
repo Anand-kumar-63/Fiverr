@@ -1,5 +1,5 @@
 import express from "express"
-const reviewrouter = express.reviewrouter();
+const reviewrouter = express.Router();
 
 reviewrouter.post("/regsiter/",()=>{});
 reviewrouter.post("/login",()=>{});
