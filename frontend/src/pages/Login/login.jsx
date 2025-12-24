@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/Components/ui/button";
+// import Newrequest from "@/utils/axiosInstance";
 const Login = () => {
   const navigate = useNavigate();
   const [email, setemail] = useState("");
@@ -10,8 +12,8 @@ const Login = () => {
   async function handlesubmit(event) {
     event.preventDefault();
     try {
-      const user = await axios.post(
-        "http://localhost:3000/userapi/Login",
+      const response = await axios.post(
+        "http://localhost:3000/auth/login",
         {
           email,
           password,
@@ -20,20 +22,30 @@ const Login = () => {
           withCredentials: true,
         }
       );
+      const user = response?.data?.user;
+      console.log(user);
       if (!user) {
         seterror("Invalid email or password");
+        return;
       }
-      localStorage.setItem("currect user", JSON.stringify(user.data.user));
+      localStorage.setItem("currentUser", JSON.stringify(user));
       navigate("/");
-      console.log(user.data.user);
     } catch (err) {
-      console.log("Error", err.message);
+      if (err.response) {
+        seterror(err.response.data?.message || "Login failed");
+      } else {
+        seterror("Network error");
+      }
     }
   }
   return (
-    <div className="m-2 w-[67vw] bg-gray-100 mx-70">
-      <form action="" onSubmit={handlesubmit} className="flex flex-col p-10">
-        <label for="Email">Email: </label>
+    <div className="m-2 w-[67vw] bg-gray-100 mx-70 flex flex-col items-center">
+      <form
+        action=""
+        onSubmit={handlesubmit}
+        className="flex flex-col p-1 justify-center items-center gap-2"
+      >
+        <label htmlFor="Email">Email: </label>
         <input
           type="Email"
           name="Email"
@@ -45,7 +57,7 @@ const Login = () => {
           }}
         />
 
-        <label for="Password">Password: </label>
+        <label htmlFor="Password">Password: </label>
         <input
           type="password"
           name="password"
@@ -56,10 +68,18 @@ const Login = () => {
             setpassword(e.target.value);
           }}
         />
-        <input type="submit" value="submit" />
-        <input type="reset" value="Reset" />
+        <Button className="px-10 w-[200px] m-1">
+          <input type="submit" value="submit" />
+        </Button>
+        <Button className="px-10 w-[200px] m-1">
+          <input type="reset" value="Reset" />
+        </Button>
       </form>
-      {error && <div>{error}</div>}
+      {error && (
+        <div>
+          <p className="text-sm text-red-600 font-sans m-3">{error}</p>
+        </div>
+      )}
     </div>
   );
 };

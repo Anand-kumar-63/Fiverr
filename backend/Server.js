@@ -20,19 +20,16 @@ app.use(cors({
   origin: "http://localhost:5173",
   credentials: true
 }));
+
 // User Auth Routes 
 app.use("/auth",authrouter)
-app.use('/user', userrouter);
+app.use("/user",userrouter);
 app.use("/message", messagerouter);
 app.use("/order", orderrouter);
 app.use("/conversation", conversationRouter);
 app.use("/gig", gigRouter);
 app.use("/reviews", reviewrouter);
 
-
-app.use('/check', (req, res) => {
-  res.send('Hello World from ES Modules Express!');
-});
 //Error handleing Middleware
 app.use((err, req, res, next) => {
   console.log("Error middleware:");

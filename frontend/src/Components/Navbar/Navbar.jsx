@@ -1,37 +1,43 @@
 import { useState, useEffect } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
+import Newrequest from "@/utils/axiosInstance";
+import axios from "axios";
 // import { useParams } from "react-router-dom";
 // import { useEffectEvent } from "react";
+
 const Navbar = () => {
-  // const navigate = useNavigate();
-  const [ activedownbar , setactivedownbar ] = useState(true);
-  const [ isuseractive , setuseractive ] = useState(true);
-  const [ togglebtn , settogglebtn ] = useState(false);
-  const [ user , setuser] = useState({
+  const navigate = useNavigate();
+  const [activedownbar, setactivedownbar] = useState(true);
+  const [isuseractive, setuseractive] = useState(true);
+  const [togglebtn, settogglebtn] = useState(false);
+
+  const [user, setuser] = useState({
     username: "anand",
     email: "anand@gmail.com",
   });
+
   useEffect(() => {
-    const currectuser = localStorage.getItem("currect user");
+    const currectuser = localStorage.getItem("currectUser");
+    if (!currectuser) {
+      navigate("/login");
+    }
     const parseduser = JSON.parse(currectuser);
-    // console.log(parseduser.username);
-    // console.log(parseduser.email);
+    console.log(parseduser);
     if (parseduser) {
       setuser({
         username: parseduser.username,
         email: parseduser.email,
       });
     }
-  },[]);
-  
-  function logoutuser() {
-    const logout = document.getElementById("logout");
-    logout.addEventListener("click", () => {
-      localStorage.clear();
-    });
+  }, [navigate]);
+
+  async function logoutuser() {
+    localStorage.removeItem("currentUser");
+    const Response = await axios.post("http://localhost:3000/auth/logout");
+
   }
 
   return (

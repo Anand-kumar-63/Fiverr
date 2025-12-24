@@ -9,6 +9,7 @@ import Order from "./pages/Order/Order";
 import Orders from "./pages/Orders/Orders"
 import Gig from "./pages/Gig/Gig";
 import Signup from "./pages/Signup/Signup";
+import { ErrorBoundary } from "react-error-boundary";
 import {
   Routes,
   Route,
@@ -24,6 +25,7 @@ import React from "react";
 function App(){
   return(
     <div>
+    <ErrorBoundary fallback={<div>This is error fallback</div>}>
       <Navbar />
         <Routes>
           <Route index element={<Home />} errorElement={<Errorpage/>}/>
@@ -38,6 +40,7 @@ function App(){
           <Route path="/Login" element={<Login/>}></Route>
           <Route path="/Signup" element={<Signup/>}></Route>
         </Routes>
+      </ErrorBoundary>  
     </div>
   )
 };

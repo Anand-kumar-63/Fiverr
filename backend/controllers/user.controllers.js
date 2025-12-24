@@ -1,10 +1,11 @@
 import UserModel from "../Models/user.js";
+import CreatenewError from "../utils/createnewError.js";
 // api tp handle Getuser 
 export const Getuser = async (req, res, next) => {
     try {
         const user = await UserModel.findById(req.params.id);
         if (!user) {
-            next(new Error("No such user exists"))
+            next(CreatenewError("No such user exists"))
         }
         res.status(200).json({
             succes: true,
@@ -14,36 +15,52 @@ export const Getuser = async (req, res, next) => {
     }
     catch (error) {
         console.log(error, "Error in getting the user");
-        next(new Error("Get user Error"));
+        next(CreatenewError("Get user Error"));
     }
 }
 
 // Api to handle the user deletion 
-export const Deleteuser = async () => {
+import jwt from "jsonwebtoken";
+
+export const Deleteuser = async (req, res) => {
     try {
-        const existinguser = await UserModel.findById(req.params.id);
-        if (!existinguser) return res.status(400).send("user doesnt exist");
+        const userId = req.params.id;
+        const existingUser = await UserModel.findById(userId);
+        if (!existingUser){
+            return res.status(404).send("User does not exist");
+        }
+        const token = req.cookies.access_token;
+        if (!token) {
 
-        const token = res.cookies.access_token;
-        if (!token) return res.status(401).send("unauthorised user");
+            return res.status(401).send("Unauthorized user");
+        
+        }
+        let payload;
+        try {
+            payload = jwt.verify(token, process.env.JWT_KEY);
+        } catch (err) {
+            return res.status(403).send("Invalid or expired token");
+        }
+        if (payload.userId !== existingUser._id.toString()) {
+            return res.status(403).send("You can only delete your own account");
+        }
+        await UserModel.findByIdAndDelete(userId);
+        res.status(200).json({
+            message: "User deleted successfully",
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: "Error deleting the user",
+            error: err.message,
+        });
+    }
+};
 
-        jwt.verify(token, process.env.JWT_KEY, async (error, payload) => {
-            if (payload.userId !== existinguser._id.toString()) {
-                return res.status(401).send("you can only delete your account");
-            }
-            await UserModel.findByIdAndDelete(req.params.id);
-            res.status(200).json({ message: "user Deleted succesfully" })
-        })
-    }
-    catch (err) {
-        res.status(401).json({
-            message: "Error in deleting the user",
-        })
-    }
-}
 
 export const updateUser = (req, res) => {
     try {
+        
+     
 
     }
     catch (error) {

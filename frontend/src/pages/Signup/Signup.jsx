@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { TfiEmail } from "react-icons/tfi";
-
 const Signup = () => {
-  const [input, setinput] = useState({
+  const [input , setinput] = useState({
     username: "",
     email: "",
     password: "",
@@ -10,15 +8,16 @@ const Signup = () => {
     Country: "",
   });
   const handlesubmit = () => {};
-  const handleChange = (event) => {
-    setinput({
-      ...prev,
-    });
-  };
+  // const handleChange = (event) => {
+  //   setinput({
+  //     ...prev,[input.username]:[event.username]
+  //   });
+  // };
+
   return (
     <div className="flex flex-col">
       <form action="" onSubmit={handlesubmit}>
-        <label for="username">Username:</label>
+        <label htmlFor="username">Username:</label>
         <input
           type="text"
           name="username"
@@ -26,10 +25,10 @@ const Signup = () => {
           className="inputfields"
         />
 
-        <label for="username">Email:</label>
+        <label htmlFor="username">Email:</label>
         <input type="email" name="Email" id="Email" className="inputfields" />
 
-        <label for="Password">:</label>
+        <label htmlFor="Password">:</label>
         <input
           type="password"
           name="Password"
@@ -37,7 +36,7 @@ const Signup = () => {
           className="inputfields"
         />
 
-        <label for="image">Profile Image:</label>
+        <label htmlFor="image">Profile Image:</label>
         <input
           type="file"
           name="profile image"
@@ -45,7 +44,7 @@ const Signup = () => {
           className="inputfields"
         />
 
-        <label for="Country">Country:</label>
+        <label htmlFor="Country">Country:</label>
         <input
           type="text"
           name="Country"
@@ -61,12 +60,12 @@ const Signup = () => {
       {/* want to become a seller */}
       <form onSubmit={handlesubmit}>
        
-       <label for="checkbox" className="absolute h-10 w-20 border-8 border-gray-400">
+       <label htmlFor="checkbox" className="absolute h-10 w-20 border-8 border-gray-400">
         <input type="checkbox" name="checkbox" id="checkbox" className="h-0 w-0 hidden"/>
         <span className={`absolute inset-0 `}></span>
        </label>
 
-        <label for="PhoneNumber">Phone Number</label>
+        <label htmlFor="PhoneNumber">Phone Number</label>
         <input
           type="number"
           name="PhoneNumber"
@@ -74,7 +73,7 @@ const Signup = () => {
           className="inputfields"
         />
 
-        <label for="Description">Description</label>
+        <label htmlFor="Description">Description</label>
         <textarea id="story" name="story" rows="5" cols="33" className="inputfields">
           Its about you
         </textarea>
