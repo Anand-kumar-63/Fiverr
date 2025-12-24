@@ -32,12 +32,21 @@ const Navbar = () => {
         email: parseduser.email,
       });
     }
-  }, [navigate]);
+  }, []);
 
   async function logoutuser() {
-    localStorage.removeItem("currentUser");
-    const Response = await axios.post("http://localhost:3000/auth/logout");
-
+    try {
+      const Response = await axios.post(
+        "http://localhost:3000/auth/logout",
+        {},
+        { withCredentials: true }
+      );
+      console.log(Response?.data);
+      localStorage.removeItem("currentUser");
+      navigate("/login");
+    } catch (error) {
+      console.log("Logout failed",error);
+    }
   }
 
   return (

@@ -45,16 +45,13 @@ export const Login = async (req, res, next) => {
     try {
         console.log("logging in.....");
         const { email, password } = req.body;
-
         console.log(req.body);
-
         const user = await UserModel.findOne({ email: email });
         console.log(user);
         if (!user) {
             return res.status(400).json({ message: "User not found 1" });
         }
         const isCorrectPassword = await bcrypt.compare(password, user.password);
-
         if (!isCorrectPassword) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
@@ -107,7 +104,8 @@ export const Logout = (req, res, next) => {
     try {
         res.clearCookie("access_token", {
             samesite: "none",
-            secure: true
+            secure: true,
+            httpOnly:true
         }).status(200).send("user Loggedout");
     }
     catch (error) {

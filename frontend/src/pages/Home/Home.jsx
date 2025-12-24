@@ -13,12 +13,12 @@ const Home = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const storeduser = localStorage.getItem("currentUser");
-    if (!storeduser) {
+    if(!storeduser) {
       navigate("/login");
     }
     const user = JSON.parse(storeduser);
     console.log(user);
-  }, [navigate]);
+  }, []);
   return (
     <div className="w-[99vw] h-auto p-1 bg-white">
       <Featured />
