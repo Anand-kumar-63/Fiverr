@@ -3,9 +3,10 @@ import React from "react";
 const Featured = () => {
   const tags = ["web desgin", "word press", "Ai services", "Web development"];
   return (
-    <div className="w-auto h-auto bg-white p-10 m-10 rounded-2xl flex flex-row justify-around items-center">
-        {/* serach bar and navigations */}
-      <section className="flex flex-col gap-4 mb-10">
+    <div className="w-auto h-auto bg-white px-40 py-10 m-10 rounded-2xl flex flex-row justify-around items-center">
+       
+      {/* serach bar and navigations */}
+      <section className="flex flex-col gap-4 mb-10 ml-8">
         <h1 className="text-5xl font-semibold">
           Find the perfect <i><span className="font-light">Freelance</span></i> Project <br />
           for you Bussiness
@@ -36,6 +37,7 @@ const Featured = () => {
           </ul>
         </span>
       </section>
+      
       {/* profile image section */}
       <section>
           <span>
@@ -43,6 +45,7 @@ const Featured = () => {
           </span>
           <h1>Robert Downy jr.</h1>
       </section>
+   
     </div>
   );
 };

@@ -15,24 +15,23 @@ const Navbar = () => {
   const [togglebtn, settogglebtn] = useState(false);
 
   const [user, setuser] = useState({
-    username: "anand",
-    email: "anand@gmail.com",
+    username: "",
+    email: "",
   });
 
   useEffect(() => {
-    const currectuser = localStorage.getItem("currectUser");
+    const currectuser = localStorage.getItem("currentUser");
     if (!currectuser) {
       navigate("/login");
     }
     const parseduser = JSON.parse(currectuser);
-    console.log(parseduser);
     if (parseduser) {
       setuser({
         username: parseduser.username,
         email: parseduser.email,
       });
     }
-  }, []);
+  }, [navigate]);
 
   async function logoutuser() {
     try {
@@ -84,7 +83,7 @@ const Navbar = () => {
                     settogglebtn(!togglebtn);
                   }}
                 >
-                  <span>
+                  <span className="flex flex-col bg-amber-200 rounded-xl px-4">
                     {user.username || "tanziro"}
                     <br />
                     {user.email || "tanziro@gmail.com"}
@@ -95,7 +94,7 @@ const Navbar = () => {
           </nav>
           <hr className="text-gray-300" />
           {togglebtn && (
-            <div className="bg-amber-50 w-40 flex justify-center absolute top-18 right-55 cursor-pointer p-1 rounded-sm">
+            <div className="bg-amber-50 w-40 flex justify-center absolute top-18 right-62 cursor-pointer p-1 rounded-sm">
               <ul className="flex flex-col text-gray-400">
                 <Link to={"/gigs"}>
                   <li>Gigs</li>
@@ -110,7 +109,7 @@ const Navbar = () => {
                   <li>Messages</li>
                 </Link>
 
-                <li onClick={logoutuser} id="logout">
+                <li onClick={logoutuser} id="logout" className="font-sans">
                   Logout
                 </li>
               </ul>

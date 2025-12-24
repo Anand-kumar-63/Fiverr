@@ -34,6 +34,7 @@ const Slide = ({ cards }) => {
 
   return (
     <ErrorBoundary fallback={<div>hey slider is not working</div>}>
+    
       {/* <div className="relative w-[102rem]">
         <div
           className="flex flex-row gap-4 overflow-x-hidden w-[70rem] p-10 rounded-2xl mx-auto my-8 border-gray-200
@@ -66,16 +67,15 @@ const Slide = ({ cards }) => {
           <CgArrowRightO />
         </button>
       </div> */}
-      <div className="w-full  bg-gray-200 relative">
-        <Carousel className="max-w-xs">
+     
+      <div className="w-full bg-white relative h-[60vh] flex justify-center items-center">
+        <Carousel className="max-w-[1000px]">
           <CarouselContent>
             {cards.map((item, index) => (
-              <CarouselItem key={index}>
-                <div className="">
-                  <Card>
+              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/2">
+                  <Card className= "w-[420px] h-[410px] flex justify-center items-center">
                     <Cateforycard carsdetails={item} />
                   </Card>
-                </div>
               </CarouselItem>
             ))}
           </CarouselContent>
