@@ -1,154 +1,187 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Form } from "react-router";
-const Signup = () => {
-  const [file, setfile] = useState(null);
+import { useNavigate } from "react-router";
 
+const Signup = () => {
+  const navigate = useNavigate();
+  // const [file, setfile] = useState(null);
+  const [error, seterror] = useState("");
   const [input, setinput] = useState({
     username: "",
     email: "",
     password: "",
-    img: "",
-    profilepic: "",
-    Country: "",
+    description: "",
+    image: "",
+    isSeller: false,
+    PhoneNumbe: "",
   });
   console.log(input);
   const handlechange = (e) => {
     setinput((prev) => {
-      return { ...prev, [e.target.name]: [e.target.value] };
+      return { ...prev, [e.target.name]: e.target.value };
     });
   };
 
-  const upload = (file) => {
+  const handleCheckbox = (e) => {
+    setinput((prev) => ({
+      ...prev,
+      isSeller: e.target.checked,
+    }));
+  };
+
+  const handlefilechange = async (e) => {
+    event.preventDefault();
+    setinput((prev) => ({
+      ...prev,
+      image: e.target.files[0],
+    }));
+  };
+
+  const upload = async (file) => {
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", "fiverr");
     try {
-    } catch (error) {}
+      const response = await axios.post(
+        "http://localhost:3000/cloud/upload",
+        data,
+        { withCredentials: true }
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log("Error detected", error);
+    }
   };
 
-  const handlesubmit = () => {
-    //
-  };
+  async function handlesubmit(event) {
+    event.preventDefault();
+    try {
+      let imageUrl = "";
+      if (input.image) {
+        imageUrl = await upload(input.image);
+        if (imageUrl) {
+          console.log(imageUrl);
+        }
+      }
+      const payload = {
+        username: input.username,
+        email: input.email,
+        password: input.password,
+        image: input.image,
+        isSeller: input.isSeller,
+        PhoneNumbe: input.PhoneNumbe,
+        description: input.description,
+      };
+
+      const response = await axios.post(
+        "http://localhost:3000/auth/register",
+        payload,
+        { withCredentials: true }
+      );
+      const user = response.data.user;
+      if (!user) {
+        seterror("Invalid email or password");
+        return;
+      }
+      console.log(user);
+      navigate("/");
+    } catch (error) {
+      if (error.response) {
+        seterror(error.response.data?.message || "Register failed");
+      }
+      console.log("Error in registration", error);
+    }
+  }
   return (
-    <div className="flex gap-10 justify-center items-center bg-gray-100 m-10 rounded-2xl w-[70vw] h-[70vh] ml-62 select-none shadow-2xs">
+    <div className="flex justify-center items-center bg-gray-100 min-h-screen">
       <form
-        action=""
         onSubmit={handlesubmit}
-        className="flex flex-col gap-1 justify-center h-[88vh] p-20 text-gray-500 cursor-pointer"
+        className="bg-white p-10 rounded-xl shadow-lg w-[450px] flex flex-col gap-3"
       >
-        <h1 className="text-4xl font-bold text-gray-500">
-          Create a new Account!
+        <h1 className="text-3xl font-bold text-gray-700 mb-4">
+          Create Account
         </h1>
 
-        <label htmlFor="username">Username:</label>
         <input
           type="text"
           name="username"
-          id="username"
-          className="inputfields text-sm p-2"
-          placeholder="Enter your username"
+          placeholder="Username"
+          className="inputfields p-2"
           onChange={handlechange}
+          required
         />
 
-        <label htmlFor="username">Email:</label>
         <input
           type="email"
-          name="Email"
-          id="Email"
-          className="inputfields text-sm p-2"
-          placeholder="Enter your Email"
+          name="email"
+          placeholder="Email"
+          className="inputfields p-2"
           onChange={handlechange}
+          required
         />
 
-        <label htmlFor="Password">Password:</label>
         <input
           type="password"
-          name="Password"
-          id="Password"
-          className="inputfields text-sm p-2"
-          placeholder="Enter your password"
+          name="password"
+          placeholder="Password"
+          className="inputfields p-2"
+          onChange={handlechange}
+          required
         />
 
-        <label htmlFor="image">Profile Image:</label>
-        <input
-          type="file"
-          name="profile image"
-          id="profile image"
-          className="inputfields text-sm p-2"
-        />
-
-        <label htmlFor="Country">Country:</label>
         <input
           type="text"
-          name="Country"
-          id="Country"
-          className="inputfields text-sm p-2"
-          placeholder="Enter your country"
+          name="country"
+          placeholder="Country"
+          className="inputfields p-2"
           onChange={handlechange}
         />
+
+        <input
+          type="file"
+          onChange={handlefilechange}
+          className="inputfields p-2"
+        />
+
+        {/* Seller Toggle */}
+        <label className="flex items-center gap-2 mt-2">
+          <input
+            type="checkbox"
+            checked={input.isSeller}
+            onChange={handleCheckbox}
+          />
+          <span>Register as Seller</span>
+        </label>
+
+        {input.isSeller && (
+          <>
+            <input
+              type="number"
+              name="phoneNumber"
+              placeholder="Phone Number"
+              className="inputfields p-2"
+              onChange={handlechange}
+            />
+
+            <textarea
+              name="description"
+              placeholder="Describe yourself"
+              rows={4}
+              className="inputfields p-2"
+              onChange={handlechange}
+            />
+          </>
+        )}
 
         <button
           type="submit"
-          className="px-10 bg-green-500 text-white p-2 rounded-sm mt-6 hover:bg-green-400"
+          className="bg-green-500 text-white p-2 rounded-md mt-4 hover:bg-green-600"
         >
           Register
         </button>
-      </form>
 
-      {/* want to become a seller */}
-      <form
-        onSubmit={handlesubmit}
-        className="flex flex-col gap-1 text-gray-500"
-      >
-        <h1 className="text-4xl font-bold text-gray-500">
-          I want to be a Seller!
-        </h1>
-
-        <label htmlFor="checkbox" className="h-10 w-50 relative inline-block">
-          <span className="text-lg mr-3">check for seller:</span>
-          <input
-            type="checkbox"
-            name="checkbox"
-            id="checkbox"
-            className="h-0 w-0 hidden"
-            onClick={handlechange}
-          />
-          <span
-            className={`absolute inset-0 bg-amber-200 cursor-pointer transition-all duration-400 peer-checked:bg-green-500 relative`}
-          >
-            <span
-              className="
-                absolute top-[2px] left-[2px]
-                w-[24px] h-[24px]
-                bg-white
-                rounded-full
-                transition-transform duration-300
-                peer-checked:translate-x-[22px]
-              "
-            />
-          </span>
-        </label>
-
-        <label htmlFor="PhoneNumber">Phone Number:</label>
-        <input
-          type="number"
-          name="PhoneNumber"
-          id="PhoneNumber"
-          className="inputfields p-2 text-sm"
-          placeholder="+1 912 987 8"
-          onClick={handlechange}
-        />
-
-        <label htmlFor="Description">Description:</label>
-        <textarea
-          id="story"
-          name="story"
-          rows="5"
-          cols="33"
-          className="inputfields"
-          placeholder="Describe yourself..."
-          onChange={handlechange}
-        ></textarea>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
       </form>
     </div>
   );

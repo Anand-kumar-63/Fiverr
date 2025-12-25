@@ -11,6 +11,7 @@ import orderrouter from "./Routes/order.route.js";
 import authrouter  from "./Routes/auth.route.js";
 import messagerouter from "./Routes/message.route.js";
 import cookieParser from "cookie-parser"
+import cloudinaryrouter from "./Routes/cloudinary.route.js";
 
 const app = express();
 dotenv.config();
@@ -23,6 +24,7 @@ app.use(cors({
 
 // User Auth Routes 
 app.use("/auth",authrouter)
+app.use("/cloud",cloudinaryrouter)
 app.use("/user",userrouter);
 app.use("/message", messagerouter);
 app.use("/order", orderrouter);

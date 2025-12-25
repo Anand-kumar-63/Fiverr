@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    img: {
+    image: {
         type: String,
         required: false
     },
@@ -21,13 +21,13 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: false
     },
-    Desc: {
+    description: {
         type: String,
-        required: true
+        required:false
     },
     isSeller: {
         type: Boolean,
-        default: false
+        default:false
     },
 }, {
     timestamps: true

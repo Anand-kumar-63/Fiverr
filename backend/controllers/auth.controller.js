@@ -69,7 +69,7 @@ export const Login = async (req, res, next) => {
             user: {
                 _id: user._id,
                 email: user.email,
-                username:user.username
+                username: user.username
             },
         });
     } catch (error) {
@@ -83,13 +83,18 @@ export const Signup = async (req, res, next) => {
     try {
         const { email, password } = req.body;
         const data = req.body;
+        console.log(req.body);
+        const existinguser = await UserModel.findOne({ email });
+        if (existinguser) {
+            res.status(400).send("User already exist with the provided email Id");
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
         const newuser = new UserModel({
             ...data,
             password: hashedPassword,
         })
         newuser.save()
-        res.send(newuser);
+        return res.send(newuser);
     }
     catch (error) {
         if (err.code === 11000) {
@@ -106,7 +111,7 @@ export const Logout = (req, res, next) => {
         res.clearCookie("access_token", {
             samesite: "none",
             secure: true,
-            httpOnly:true
+            httpOnly: true
         }).status(200).send("user Loggedout");
     }
     catch (error) {

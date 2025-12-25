@@ -6,15 +6,20 @@ cloudinary.config({
     secure: true
 });
 
-const Uploadcloudinary = async (file) => {
+const Uploadcloudinary = async (req, res) => {
     try {
-        const result = await cloudinary.uploader.upload(file);
+        const image = req.body.data.file;
+        console.log(image);
+        const result = await cloudinary.uploader.upload(image, {
+            resource_type: "auto",
+        });
         console.log("Upload successful:", result.public_id);
         console.log(result.secure_url);
-        return result
+        return res.status(200).send(result.secure_url);
     }
     catch (error) {
-        console.log("Upload failed" , error);
+        console.log("Upload failed", error);
     }
 }
 
+export default Uploadcloudinary;
