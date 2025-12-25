@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import Newrequest from "@/utils/axiosInstance";
 import axios from "axios";
+import { Button } from "../ui/button";
 // import { useParams } from "react-router-dom";
 // import { useEffectEvent } from "react";
 
@@ -44,7 +45,7 @@ const Navbar = () => {
       localStorage.removeItem("currentUser");
       navigate("/login");
     } catch (error) {
-      console.log("Logout failed",error);
+      console.log("Logout failed", error);
     }
   }
 
@@ -63,7 +64,7 @@ const Navbar = () => {
                 </span>
               </div>
             </Link>
-            <div className="flex flex-row justify-between items-center mt-1">
+            <div className="flex flex-row justify-between items-center mt-1 gap-2">
               <ul className="flex flex-row gap-5 text-md">
                 <li>Fiverr Bussiness</li>
                 <li>Explore</li>
@@ -83,18 +84,23 @@ const Navbar = () => {
                     settogglebtn(!togglebtn);
                   }}
                 >
-                  <span className="flex flex-col bg-amber-200 rounded-xl px-4">
+                  <span className="flex flex-col bg-amber-200 px-4">
                     {user.username || "tanziro"}
                     <br />
                     {user.email || "tanziro@gmail.com"}
                   </span>
                 </div>
               )}
+              <Link to={"/Signup"}>
+                <Button className="px-10 py-2 hover:bg-transparent bg-transparent text-sm text-green-500 font-bold border-1  border-green-500 rounded-sm">
+                  JOIN
+                </Button>
+              </Link>
             </div>
           </nav>
           <hr className="text-gray-300" />
           {togglebtn && (
-            <div className="bg-amber-50 w-40 flex justify-center absolute top-18 right-62 cursor-pointer p-1 rounded-sm">
+            <div className="bg-amber-50 w-40 flex justify-center absolute top-18 right-86 cursor-pointer p-1 rounded-sm">
               <ul className="flex flex-col text-gray-400">
                 <Link to={"/gigs"}>
                   <li>Gigs</li>

@@ -87,7 +87,6 @@ const Login = () => {
           <p className="text-sm text-red-600 font-sans m-3">{error}</p>
         </div>
       )}
-   
     </div>
   );
 };
