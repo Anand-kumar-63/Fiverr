@@ -44,12 +44,21 @@ export const getGig = async (req, res) => {
     }
 }
 export const getGigs = async (req, res) => {
+    const q = req.query;
+    const filters = {
+        ...(q.userId && { userId: q.userId }),
+        ...(q.category && { category: q.category }),
+        ...((q.min || q.max) && {
+            price: {...(q.min && { $gt: q.min }) , ...(q.max && { $lt: q.max })}
+        }),
+        ...(q.search && { title: { $regex: q.search } })
+    }
     try {
-        const gigs = await Gigmodel.find();
-        res.status(200).send(gigs);
+        const gigs = await Gigmodel.find(filters);
+        return res.status(200).send(gigs);
     }
     catch (error) {
-
+        next(CreatenewError(200, error))
     }
 }
 export const updateGig = async () => {
