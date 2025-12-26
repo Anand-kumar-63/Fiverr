@@ -61,7 +61,6 @@ const gigSchema = new mongoose.Schema({
         default:0
     }
 },{
-    // created At and updated At
     timestamps:true
 })
 const Gigmodel = mongoose.model("Gig", gigSchema);
