@@ -81,9 +81,6 @@ const Signup = () => {
         return;
       }
       console.log(user);
-      localStorage.setItem("currentUser",user);
-      
-
       navigate("/login");
     } catch (error) {
       if (error.response) {
@@ -94,7 +91,7 @@ const Signup = () => {
   }
 
   return (
-    <div className="flex justify-center items-center bg-gray-100 min-h-screen">
+    <div className="flex justify-center items-center bg-gray-100 min-h-[88vh]">
       <form
         onSubmit={handlesubmit}
         className="bg-white p-10 rounded-xl shadow-lg w-[450px] flex flex-col gap-3"

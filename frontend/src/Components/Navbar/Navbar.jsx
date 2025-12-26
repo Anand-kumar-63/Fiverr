@@ -12,8 +12,9 @@ import { Button } from "../ui/button";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  // const [join , setjoin] = useState(true);
   const [activedownbar, setactivedownbar] = useState(true);
-  const [isuseractive, setuseractive] = useState(true);
+  const [isuseractive, setuseractive] = useState(false);
   const [togglebtn, settogglebtn] = useState(false);
 
   const [user, setuser] = useState({
@@ -25,10 +26,11 @@ const Navbar = () => {
     const currectuser = localStorage.getItem("currentUser");
     const parseduser = JSON.parse(currectuser);
     if (parseduser) {
+      setuseractive(true);
       setuser({
         username: parseduser.username,
         email: parseduser.email,
-        // image:parsed
+        image: parseduser.image,
       });
     }
   }, [navigate]);
@@ -72,41 +74,35 @@ const Navbar = () => {
                 <li>Became a Seller</li>
               </ul>
               {!isuseractive && (
-                <button className="ml-2 bg-green-300 py-2 px-6 rounded-sm bg-transparent border-2 border-green-300">
-                  Join in
-                </button>
+                <Link to={"/Signup"}> 
+                  <button className="ml-2 bg-green-300 py-2 px-6 rounded-sm bg-transparent border-2 border-green-300">
+                    Join in
+                  </button>
+                </Link>
               )}
               {isuseractive && (
                 <div
-                  className="ml-5"
+                  className="flex flex-row items-center p-1 px-1"
                   onClick={() => {
                     settogglebtn(!togglebtn);
                   }}
                 >
                   <Avatar>
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="@shadcn"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarImage src={user.image} alt="@shadcn" />
+                    <AvatarFallback>{user.username[0]}</AvatarFallback>
                   </Avatar>
-                  <span className="flex flex-col bg-amber-200 px-4">
+                  <span className="flex flex-col px-1 text-sm font-light text-gray-600">
                     {user.username || "tanziro"}
                     <br />
                     {user.email || "tanziro@gmail.com"}
                   </span>
                 </div>
               )}
-              <Link to={"/Signup"}>
-                <Button className="px-10 py-2 hover:bg-transparent bg-transparent text-sm text-green-500 font-bold border-1  border-green-500 rounded-sm">
-                  JOIN
-                </Button>
-              </Link>
             </div>
           </nav>
           <hr className="text-gray-300" />
           {togglebtn && (
-            <div className="bg-amber-50 w-40 flex justify-center absolute top-18 right-86 cursor-pointer p-1 rounded-sm">
+            <div className="bg-amber-50 w-40 flex justify-center absolute top-18 right-64 cursor-pointer p-1 rounded-sm">
               <ul className="flex flex-col text-gray-400">
                 <Link to={"/gigs"}>
                   <li>Gigs</li>
