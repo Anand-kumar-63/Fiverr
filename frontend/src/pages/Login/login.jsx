@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/Components/ui/button";
 // import Newrequest from "@/utils/axiosInstance";
 const Login = () => {
@@ -40,7 +40,6 @@ const Login = () => {
   }
   return (
     <div className="m-20 ml-80 w-[60vw] p-10 bg-gray-100 flex flex-col items-center rounded-2xl shadow-sm">
-   
       <form
         action=""
         onSubmit={handlesubmit}
@@ -87,6 +86,12 @@ const Login = () => {
           <p className="text-sm text-red-600 font-sans m-3">{error}</p>
         </div>
       )}
+      <p className="text-sm">
+        new here? Create new accout{" "}
+        <Link to={"/Signup"}>
+          <span className="text-blue-500 text-sm">signup</span>
+        </Link>
+      </p>
     </div>
   );
 };

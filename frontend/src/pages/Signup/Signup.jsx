@@ -10,10 +10,7 @@ const Signup = () => {
     username: "",
     email: "",
     password: "",
-    description: "",
-    image: "",
-    isSeller: false,
-    PhoneNumbe: "",
+    image:""
   });
   console.log(input);
   const handlechange = (e) => {
@@ -40,11 +37,12 @@ const Signup = () => {
   const upload = async (file) => {
     const data = new FormData();
     data.append("file", file);
-    data.append("upload_preset", "fiverr");
+    // data.append("upload_preset", "fiverr");
     try {
       const response = await axios.post(
         "http://localhost:3000/cloud/upload",
         data,
+        { headers: { "Content-Type": "multipart/form-data" } },
         { withCredentials: true }
       );
       console.log(response.data);
@@ -57,21 +55,18 @@ const Signup = () => {
   async function handlesubmit(event) {
     event.preventDefault();
     try {
-      let imageUrl = "";
+      let cloudinarydata = {};
       if (input.image) {
-        imageUrl = await upload(input.image);
-        if (imageUrl) {
-          console.log(imageUrl);
+        cloudinarydata = await upload(input.image);
+        if (cloudinarydata) {
+          console.log(cloudinarydata);
         }
       }
       const payload = {
         username: input.username,
         email: input.email,
         password: input.password,
-        image: input.image,
-        isSeller: input.isSeller,
-        PhoneNumbe: input.PhoneNumbe,
-        description: input.description,
+        image:cloudinarydata.url
       };
 
       const response = await axios.post(
@@ -79,13 +74,17 @@ const Signup = () => {
         payload,
         { withCredentials: true }
       );
-      const user = response.data.user;
+      console.log(response.data);
+      const user = response.data;
       if (!user) {
         seterror("Invalid email or password");
         return;
       }
       console.log(user);
-      navigate("/");
+      localStorage.setItem("currentUser",user);
+      
+
+      navigate("/login");
     } catch (error) {
       if (error.response) {
         seterror(error.response.data?.message || "Register failed");
@@ -93,6 +92,7 @@ const Signup = () => {
       console.log("Error in registration", error);
     }
   }
+
   return (
     <div className="flex justify-center items-center bg-gray-100 min-h-screen">
       <form
@@ -102,7 +102,6 @@ const Signup = () => {
         <h1 className="text-3xl font-bold text-gray-700 mb-4">
           Create Account
         </h1>
-
         <input
           type="text"
           name="username"
@@ -111,7 +110,6 @@ const Signup = () => {
           onChange={handlechange}
           required
         />
-
         <input
           type="email"
           name="email"
@@ -120,7 +118,6 @@ const Signup = () => {
           onChange={handlechange}
           required
         />
-
         <input
           type="password"
           name="password"
@@ -129,7 +126,6 @@ const Signup = () => {
           onChange={handlechange}
           required
         />
-
         <input
           type="text"
           name="country"
@@ -137,14 +133,12 @@ const Signup = () => {
           className="inputfields p-2"
           onChange={handlechange}
         />
-
         <input
           type="file"
           onChange={handlefilechange}
           className="inputfields p-2"
         />
-
-        {/* Seller Toggle */}
+        Seller Toggle
         <label className="flex items-center gap-2 mt-2">
           <input
             type="checkbox"
@@ -153,7 +147,6 @@ const Signup = () => {
           />
           <span>Register as Seller</span>
         </label>
-
         {input.isSeller && (
           <>
             <input
@@ -173,14 +166,12 @@ const Signup = () => {
             />
           </>
         )}
-
         <button
           type="submit"
           className="bg-green-500 text-white p-2 rounded-md mt-4 hover:bg-green-600"
         >
           Register
         </button>
-
         {error && <p className="text-red-500 mt-2">{error}</p>}
       </form>
     </div>

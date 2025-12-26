@@ -31,13 +31,11 @@ app.use("/order", orderrouter);
 app.use("/conversation", conversationRouter);
 app.use("/gig", gigRouter);
 app.use("/reviews", reviewrouter);
-
 //Error handleing Middleware
 app.use((err, req, res, next) => {
   console.log("Error middleware:");
   res.status(400).send(err.message);
 })
-
 ConnectDB().then((result) => {
   app.listen(3000, () => {
     console.log("Server is running at the port 3000");

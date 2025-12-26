@@ -3,7 +3,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
-import Newrequest from "@/utils/axiosInstance";
+// import Newrequest from "@/utils/axiosInstance";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import axios from "axios";
 import { Button } from "../ui/button";
 // import { useParams } from "react-router-dom";
@@ -22,14 +23,12 @@ const Navbar = () => {
 
   useEffect(() => {
     const currectuser = localStorage.getItem("currentUser");
-    if (!currectuser) {
-      navigate("/login");
-    }
     const parseduser = JSON.parse(currectuser);
     if (parseduser) {
       setuser({
         username: parseduser.username,
         email: parseduser.email,
+        // image:parsed
       });
     }
   }, [navigate]);
@@ -84,6 +83,13 @@ const Navbar = () => {
                     settogglebtn(!togglebtn);
                   }}
                 >
+                  <Avatar>
+                    <AvatarImage
+                      src="https://github.com/shadcn.png"
+                      alt="@shadcn"
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
                   <span className="flex flex-col bg-amber-200 px-4">
                     {user.username || "tanziro"}
                     <br />
