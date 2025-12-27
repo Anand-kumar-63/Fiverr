@@ -5,26 +5,41 @@ import { FaStar } from "react-icons/fa6";
 import { Link } from "react-router";
 import axios from "axios";
 import { gigs } from "./Data";
+import { useLocation } from "react-router";
 // import { useSearchParams } from "react-router";/
 import { useQuery } from "@tanstack/react-query";
 const Gigs = () => {
-  // const [error, seterror] = useState("");
-  const [opensort, setopensort] = useState("");
+  //  WIP:sort in url not working
+  const location = useLocation();
+  console.log(location);
+  const { search } = location;
+  const [max, setmax] = useState("");
+  const [min, setmin] = useState("");
+  const [opensort, setopensort] = useState("createdAt");
   const minref = useRef();
   const maxref = useRef();
-
-  const { isPending, error, data } = useQuery({
-    queryKey: ["get-gigs"],
+  const { data } = useQuery({
+    queryKey: ["get-gigs", max, min],
     queryFn: async () => {
-       const response = await axios.get("http://localhost:3000/gig/", 
-        { withCredentials: true });
-      // always remember reactquery expects queryfn to return some value so you should be returning the axios response?.data 
-      return response?.data;  
+      const response = await axios.get(
+        `http://localhost:3000/gig${search}&max=${max}&min=${min}`,
+        {
+          withCredentials: true,
+        }
+      );
+      // always remember reactquery expects queryfn to return some value so you should be returning the axios response?.data
+      return response?.data;
     },
   });
   const gigdata = data;
-  console.log(gigdata);
+  const apply = () => {
+    setmax(maxref.current.value);
+    setmin(minref.current.value);
+  };
 
+  const currectuser = localStorage.getItem("currentUser");
+  const parseduser = JSON.parse(currectuser)
+  console.log(parseduser);
   // useEffect(() => {
   //   async function callthefunc() {
   //     try {
@@ -60,16 +75,21 @@ const Gigs = () => {
         <span className="flex flex-row gap-1 text-gray-500">
           <label htmlFor="Budged">Budged</label>
           <input
+            ref={minref}
             type="text"
             placeholder="min"
             className="border-2 px-1 outline-none"
           />
           <input
+            ref={maxref}
             type="text"
             placeholder="max"
             className="border-2 px-1 outline-none"
           />
-          <button className="px-8 bg-green-500 text-white rounded-sm">
+          <button
+            onClick={apply}
+            className="px-8 bg-green-500 text-white rounded-sm"
+          >
             Apply
           </button>
         </span>
@@ -80,19 +100,19 @@ const Gigs = () => {
             <option
               value="Newest"
               onClick={() => {
-                setopensort("Newest");
+                setopensort("price");
               }}
             >
-              Newest
+              price
             </option>
             ) (
             <option
               value="Best selling"
               onClick={() => {
-                setopensort("Best Selling");
+                setopensort("createdAt");
               }}
             >
-              Best Selling
+              createdAt
             </option>
             )
           </select>
@@ -121,13 +141,15 @@ const Gigs = () => {
                         className="object-cover h-[30px] w-[30px] rounded-full"
                       />
                     </span>
-                    <span className="text-black">{item.username}</span>
+                    <span className="text-black">{parseduser.username}</span>
                   </span>
                   <p>{item.desc}</p>
 
                   <span className="text-yellow-200 flex flex-row items-center gap-1">
                     <FaStar />
-                    <span className="text-gray-400">{Math.round(item.totalStar/item.starNumber)}</span>
+                    <span className="text-gray-400">
+                      {Math.round(item.totalStar / item.starNumber)}
+                    </span>
                   </span>
 
                   <div className="flex flex-row justify-between items-center bg-gray-100 border-t-1 border-gray-200 h-16 p-2">

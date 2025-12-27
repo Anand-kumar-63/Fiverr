@@ -1,5 +1,5 @@
-import React from "react";
-import { useParams } from "react-router";
+import React, { useEffect } from "react";
+import { useLocation, useParams } from "react-router";
 import { FaStar } from "react-icons/fa6";
 import { GoClock } from "react-icons/go";
 import { TfiReload } from "react-icons/tfi";
@@ -15,6 +15,7 @@ import { FaPinterest } from "react-icons/fa6";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { CiGlobe } from "react-icons/ci";
 import { AiTwotoneDollarCircle } from "react-icons/ai";
+import axios from "axios";
 import { reviews } from "./Data";
 
 import {
@@ -27,6 +28,9 @@ import {
 
 // import { array } from "./Data";
 import { info } from "./Data";
+import { Card, CardContent } from "@/Components/ui/card";
+import { useEffectEvent } from "react";
+import { useQueries, useQuery } from "@tanstack/react-query";
 
 const arr = [1, 2, 3, 4, 5];
 const categoriesData = [
@@ -57,9 +61,39 @@ const Gig = () => {
       Icon: <FiCheckSquare />,
     },
   ];
+
+  const id = param.gigId;
+  const { isPending, error, data } = useQuery({
+    queryKey: ["get-querydata"],
+    queryFn: async () => {
+      const response = await axios.get(
+        `http://localhost:3000/gig/single/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      return response?.data;
+    },
+  });
+  const gigdata = data?.data;
+  console.log(gigdata);
+  // const userId = data?.data?.userId;
+  // const {data:data2} = useQuery({
+  //   queryKey:["get-user"],
+  //   queryFn:async()=>{
+  //      const response = await axios.get(`http://localhost:3000/user/getuser/${userId}`,{withCredentials:true});
+  //      return response.data;
+  //   }
+  // })
+  // console.log(data2);
+  // console.log(
+  //   Array.from({
+  //     length: Math.round(gigdata.totalStar/gigdata.starNumber),
+  //   })
+  // );
   return (
     <div className="">
-      <div className="py-10 relative h-[560px] bg-gray-100">
+      <div className="py-10 relative h-[600px] bg-gray-100">
         <section className="px-10 space-y-2 w-[800px] absolute left-56 ">
           <span>{`FIVERR > GRAPHICS & DESIGN`}</span>
           <h1 className="text-2xl text-black font-bold">
@@ -67,43 +101,29 @@ const Gig = () => {
           </h1>
 
           <span className="space-y-2 flex flex-row items-center space-x-2">
-            <h1 className="mt-2">John Doe</h1>
-            <span className="text-yellow-200 flex flex-row space-x-1">
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStar />
-            </span>
+            <h1 className="mt-2">username</h1>
           </span>
 
-          <div>// image carousel</div>
-
-          <div>
-            <h1>About this page</h1>
-            <p className="text-xl/0.8 leading-relaxed text-gray-500">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugiat,
-              fuga. Totam voluptate ex veniam debitis consequuntur voluptatibus
-              quis magnam consectetur quos, et, expedita sit temporibus vero
-              delectus. Vero sequi repudiandae iste quaerat magni, impedit dolor
-              in aperiam ratione qui vitae aspernatur nobis omnis. Laboriosam,
-              deleniti adipisci quae officiis quis consequuntur necessitatibus
-              vero ipsam labore, accusantium dolorem!
-              <br />
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempore
-              incidunt perferendis laborum impedit a explicabo aperiam rerum
-              eaque reiciendis. Eius aperiam aut aliquid voluptas? Numquam
-              accusantium assumenda a in repellat quia aliquid enim? Eaque
-              nostrum porro facilis fugit aperiam corrupti est dolorum
-              consectetur doloribus nesciunt consequuntur rerum laborum
-              consequatur id architecto nulla qui, iste explicabo ab vel odio
-              ducimus quia! Veniam quaerat nobis facere eum. A earum ipsum
-              dolore delectus corrupti nemo modi tenetur quod adipisci
-              repellendus. Quod accusamus placeat sed similique magnam provident
-              facilis, fuga eius est assumenda quo dolorum excepturi, optio
-              repudiandae, vitae ducimus cum ad ab dignissimos!
-            </p>
-          </div>
+          <Carousel
+            opts={{
+              align: "start",
+            }}
+            className="w-full max-w-2xl h-[440px]"
+          >
+            <CarouselContent>
+              {gigdata.Image.map(( item , index) => (
+                <CarouselItem key={index} className="">
+                  <div className="p-1 flex justify-center">
+                    <Card className="bg-green-400 h-[440px] w-[580px]">
+                      <img src={item} alt="Girl in a jacket" width="500" height="600"></img>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         </section>
 
         {/* payment card */}
@@ -148,6 +168,31 @@ const Gig = () => {
             Continue
           </button>
         </div>
+      </div>
+
+      <div className="mx-[260px] w-[740px]">
+        <h1>About this page</h1>
+        <p className="text-xl/0.8 leading-relaxed text-gray-500">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugiat,
+          fuga. Totam voluptate ex veniam debitis consequuntur voluptatibus quis
+          magnam consectetur quos, et, expedita sit temporibus vero delectus.
+          Vero sequi repudiandae iste quaerat magni, impedit dolor in aperiam
+          ratione qui vitae aspernatur nobis omnis. Laboriosam, deleniti
+          adipisci quae officiis quis consequuntur necessitatibus vero ipsam
+          labore, accusantium dolorem!
+          <br />
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempore
+          incidunt perferendis laborum impedit a explicabo aperiam rerum eaque
+          reiciendis. Eius aperiam aut aliquid voluptas? Numquam accusantium
+          assumenda a in repellat quia aliquid enim? Eaque nostrum porro facilis
+          fugit aperiam corrupti est dolorum consectetur doloribus nesciunt
+          consequuntur rerum laborum consequatur id architecto nulla qui, iste
+          explicabo ab vel odio ducimus quia! Veniam quaerat nobis facere eum. A
+          earum ipsum dolore delectus corrupti nemo modi tenetur quod adipisci
+          repellendus. Quod accusamus placeat sed similique magnam provident
+          facilis, fuga eius est assumenda quo dolorum excepturi, optio
+          repudiandae, vitae ducimus cum ad ab dignissimos!
+        </p>
       </div>
 
       <div className="mx-[260px] w-[740px]">
