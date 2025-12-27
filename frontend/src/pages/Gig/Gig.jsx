@@ -16,6 +16,15 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { CiGlobe } from "react-icons/ci";
 import { AiTwotoneDollarCircle } from "react-icons/ai";
 import { reviews } from "./Data";
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+
 // import { array } from "./Data";
 import { info } from "./Data";
 

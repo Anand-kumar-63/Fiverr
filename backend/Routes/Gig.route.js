@@ -5,6 +5,6 @@ const gigrouter = express.Router();
 gigrouter.post("/", createGig);
 gigrouter.delete("/:id", deleteGig);
 gigrouter.get("/single/:id", jwtverify , getGig);
-gigrouter.get("/", jwtverify, getGigs);
+gigrouter.get("/", jwtverify , getGigs);
 gigrouter.post("/update",jwtverify , updateGig);
 export default gigrouter;

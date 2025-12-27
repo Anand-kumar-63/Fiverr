@@ -18,6 +18,7 @@ export const createGig = async (req, res) => {
         next(CreatenewError(400, "gig creation failed"));
     }
 }
+
 export const deleteGig = async (req, res, next) => {
     try {
         const existingGig = await Gigmodel.findById(req.params.id);
@@ -56,7 +57,7 @@ export const getGigs = async (req, res) => {
     }
     try {
         const gigs = await Gigmodel.find(filters);
-        return res.status(200).send(gigs);
+        return res.status(200).json(gigs);
     }
     catch (error) {
         next(CreatenewError(200, error))
@@ -90,7 +91,7 @@ export const updateGig = async (req, res) => {
         console.log(updatedfields);
         res.status(200).json({ message: "Gig updated successfully" })
     }
-    catch (erro) {
+    catch (error) {
         next(CreatenewError(403, error))
     }
 }
