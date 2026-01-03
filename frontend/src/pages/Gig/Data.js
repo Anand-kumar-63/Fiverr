@@ -1,4 +1,3 @@
-import { FiCheckSquare } from "react-icons/fi"; 
 export const imagemap = [
     {
         img: "/images/pexels.png"

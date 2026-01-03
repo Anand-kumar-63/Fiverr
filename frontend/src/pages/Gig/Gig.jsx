@@ -1,11 +1,6 @@
 import React from "react";
 import { Link, useParams } from "react-router";
 import { FaStar } from "react-icons/fa6";
-import { GoClock } from "react-icons/go";
-import { TfiReload } from "react-icons/tfi";
-import { FiCheckSquare } from "react-icons/fi";
-import { FaRegThumbsUp } from "react-icons/fa";
-import { FaRegThumbsDown } from "react-icons/fa";
 import { IoSyncCircleOutline } from "react-icons/io5";
 import { SlSocialInstagram } from "react-icons/sl";
 import { FaFacebook } from "react-icons/fa6";
@@ -15,7 +10,7 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { CiGlobe } from "react-icons/ci";
 import { AiTwotoneDollarCircle } from "react-icons/ai";
 import axios from "axios";
-import { reviews } from "./Data";
+import Reviews from "@/Components/Reviews/reviews";
 import {
   Carousel,
   CarouselContent,
@@ -26,6 +21,9 @@ import {
 import { info } from "./Data";
 import { Card, CardContent } from "@/Components/ui/card";
 import { useQuery } from "@tanstack/react-query";
+import { GoClock } from "react-icons/go";
+import { TfiReload } from "react-icons/tfi";
+import { FiCheckSquare } from "react-icons/fi";
 
 const arr = [1, 2, 3, 4, 5];
 const categoriesData = [
@@ -39,8 +37,8 @@ const categoriesData = [
 const Gig = () => {
   const param = useParams();
   const id = param.gigId;
-  
-  // to get the gigdata from the Backend using the tanstack query 
+
+  // to get the gigdata from the Backend using the tanstack query
   const { isPending, error, data } = useQuery({
     queryKey: ["get-querydata"],
     queryFn: async () => {
@@ -177,16 +175,14 @@ const Gig = () => {
           <span className="flex flex-col space-y-1 max-w-[200px]">
             <h1>{parsedUser.username}</h1>
             <ul className="flex flex-row space-x-1 text-amber-300">
-              {stararray.map((_,index)=>{
-                return(
-                   <FaStar key={index}/>
-                )
+              {stararray.map((_, index) => {
+                return <FaStar key={index} />;
               })}
             </ul>
             <Link to={"/Chat"}>
-            <button className="bg-white border border-gray-300 px-2">
-              Contact Me!
-            </button>
+              <button className="bg-white border border-gray-300 px-2">
+                Contact Me!
+              </button>
             </Link>
           </span>
         </span>
@@ -210,55 +206,10 @@ const Gig = () => {
         </div>
 
         {/* Reviews Section */}
-        <div className="mt-10 mb-10">
-          <h1 className="text-2xl font-semibold">Reviews</h1>
-          {reviews.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className="mt-4 border-b-1 rounded-xs p-2 border-gray-400"
-              >
-                <span className="flex flex-row space-x-2 items-center">
-                  <span>
-                    <img
-                      src="/images/united-states.png"
-                      alt="american logo"
-                      className="rounded-full object-cover h-10 w-10"
-                    />
-                  </span>
-                  <span className="text-gray-700 text-sm">
-                    <h1>{item.user}</h1>
-                    <h2>{item.country}</h2>
-                    <span className="flex flex-row text-yellow-400">
-                      <FaStar />
-                      <FaStar />
-                      <FaStar />
-                      <FaStar />
-                      <FaStar />
-                    </span>
-                  </span>
-                </span>
-                <p className="text-[16px] text-gray-500">{item.comment}</p>
-
-                <div className="flex flex-row space-x-2 mt-2 text-gray-600">
-                  <h1>HelpFull?</h1>
-                  <span className="flex flex-row items-center space-x-1">
-                    <FaRegThumbsUp />
-                    yes
-                  </span>
-                  <span className="flex flex-row items-center space-x-1">
-                    <FaRegThumbsDown />
-                    No
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <Reviews />
       </div>
 
-
-       {/* footer */}
+      {/* footer */}
       <div className="flex flex-col space-x-50 mx-10 p-10 my-6 select-none">
         <div className="flex flex-row justify-between mx-26 cursor-pointer">
           {arr.map((item, index) => {
