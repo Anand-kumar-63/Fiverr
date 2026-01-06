@@ -1,19 +1,20 @@
 import mongoose from "mongoose";
 const reviewSchema = new mongoose.Schema({
     gigId: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref:"Gigmodel"
     },
     userId: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        required:"UserModel"
     },
     star: {
         type: Number,
         required: true,
         enum: [1, 2, 3, 4, 5]
     },
-    description: {
+    desc:{
         type: String,
         required: true
     }

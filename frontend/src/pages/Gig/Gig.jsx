@@ -50,15 +50,14 @@ const Gig = () => {
       );
       return response?.data;
     },
+    
   });
   console.log(data);
   const gigdata = data?.data;
-  console.log(gigdata);
 
   // to get the current user from the localhost
   const currentuser = localStorage.getItem("currentUser");
   const parsedUser = JSON.parse(currentuser);
-  console.log(parsedUser);
 
   // to calculate the date
   const date = new Date(gigdata?.createdAt);
@@ -150,7 +149,7 @@ const Gig = () => {
           </ul>
 
           <button className="text-white bg-green-400 py-1 rounded">
-            Continue
+            Continue  
           </button>
         </div>
       </div>

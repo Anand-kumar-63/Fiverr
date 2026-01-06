@@ -1,9 +1,24 @@
 import React from "react";
-import { FaRegThumbsUp, FaStar } from "react-icons/fa";
 import { reviews } from "@/pages/Gig/Data";
-import { FaRegThumbsDown } from "react-icons/fa6";
-const Reviews = () => {
-  return (
+import { useQuery } from "@tanstack/react-query";
+// import review from "../review/review";
+import axios from "axios";
+import { FaRegThumbsDown, FaRegThumbsUp, FaStar } from "react-icons/fa";
+const Reviews = async () => {
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["getreviews"],
+    queryFn: async () => {
+      const response = await axios.get("http://localhost:3000");
+      return response;
+    },
+  });
+  return isLoading ? (
+    error ? (
+      <div>{error}</div>
+    ) : (
+      <div>Loading</div>
+    )
+  ) : (
     <div className="mt-10 mb-10">
       <h1 className="text-2xl font-semibold">Reviews</h1>
       {reviews.map((item, index) => {
@@ -33,7 +48,6 @@ const Reviews = () => {
               </span>
             </span>
             <p className="text-[16px] text-gray-500">{item.comment}</p>
-
             <div className="flex flex-row space-x-2 mt-2 text-gray-600">
               <h1>HelpFull?</h1>
               <span className="flex flex-row items-center space-x-1">

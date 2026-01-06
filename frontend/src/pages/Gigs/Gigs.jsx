@@ -22,7 +22,7 @@ const Gigs = () => {
     queryKey: ["get-gigs", max, min],
     queryFn: async () => {
       const response = await axios.get(
-        `http://localhost:3000/gig${search}&max=${max}&min=${min}`,
+        `http://localhost:3000/gig${search}&max=${max}`,
         {
           withCredentials: true,
         }
