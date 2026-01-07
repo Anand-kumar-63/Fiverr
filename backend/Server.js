@@ -31,7 +31,8 @@ app.use("/gig", gigrouter);
 app.use("/reviews", reviewrouter);
 //Error handleing Middleware
 app.use((err, req, res, next) => {
-  console.log("Error middleware:");
+  console.log("Error middleware Server.js:");
+  console.log(err.message);
   res.status(400).send(err.message);
 })
 ConnectDB().then((result) => {

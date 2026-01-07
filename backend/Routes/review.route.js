@@ -1,10 +1,9 @@
 import express from "express";
-import jwtverify from "../middlewares/jwtverify";
-import {createreview , getreview , updatereview }from "../controllers/review.controller";
+import {jwtverify} from "../middlewares/jwtverify.js";
+import {createreview , getreview }from "../controllers/review.controller.js";
 const reviewrouter = express.Router();
-
-reviewrouter.post("/", jwtverify ,createreview);
-reviewrouter.get("/:Id", jwtverify , getreview);
-reviewrouter.post("/",  jwtverify , updatereview);
-
+reviewrouter.post("/create", jwtverify ,createreview);
+reviewrouter.get("/get", jwtverify , getreview);
+reviewrouter.get("/",(req,res)=>{res.send("hey")});
+// reviewrouter.post("/update",  jwtverify , updatereview);
 export default reviewrouter;

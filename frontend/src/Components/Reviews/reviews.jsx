@@ -8,10 +8,12 @@ const Reviews = async () => {
   const { isLoading, error, data } = useQuery({
     queryKey: ["getreviews"],
     queryFn: async () => {
-      const response = await axios.get("http://localhost:3000");
+      const response = await axios.get("http://localhost:3000/reviews/get");
+      console.log(response);
       return response;
     },
   });
+  console.log(data);
   return isLoading ? (
     error ? (
       <div>{error}</div>
