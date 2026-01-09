@@ -33,11 +33,9 @@ const categoriesData = [
   "Video & Animation",
   "Music & Audio",
 ];
-
 const Gig = () => {
   const param = useParams();
   const id = param.gigId;
-
   // to get the gigdata from the Backend using the tanstack query
   const { isPending, error, data } = useQuery({
     queryKey: ["get-querydata"],
@@ -52,9 +50,8 @@ const Gig = () => {
     },
     
   });
-  console.log(data);
   const gigdata = data?.data;
-
+  console.log(gigdata);
   // to get the current user from the localhost
   const currentuser = localStorage.getItem("currentUser");
   const parsedUser = JSON.parse(currentuser);
@@ -197,15 +194,13 @@ const Gig = () => {
               </li>
             ))}
           </ul>
-
           <p className="text-gray-500 text-12 mt-4">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus
             modi vitae necessitatibus ullam dolor enim dolores tenetur unde ut
           </p>
         </div>
-
         {/* Reviews Section */}
-        <Reviews gigId={gigdata._id} />
+        <Reviews gigId={id} />
       </div>
 
       {/* footer */}

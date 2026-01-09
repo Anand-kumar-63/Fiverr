@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
     },
     isSeller: {
         type: Boolean,
-        default:true
+        default:false
     },
 }, {
     timestamps: true

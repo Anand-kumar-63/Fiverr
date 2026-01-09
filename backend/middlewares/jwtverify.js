@@ -8,7 +8,6 @@ export const jwtverify = async (req, res, next) => {
         if (!payload) res.status(402).send("Token is not valid");
         req.userId = payload.userId;
         req.isSeller = payload.isSeller;
-        console.log("middleware check");
         next();
     } catch (error) {
         next(CreatenewError(400,"Token is not valid"));
