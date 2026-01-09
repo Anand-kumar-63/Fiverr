@@ -205,7 +205,7 @@ const Gig = () => {
         </div>
 
         {/* Reviews Section */}
-        <Reviews />
+        <Reviews gigId={gigdata._id} />
       </div>
 
       {/* footer */}

@@ -1,6 +1,7 @@
 import React from "react";
 import { FaRegThumbsDown, FaRegThumbsUp, FaStar } from "react-icons/fa";
-const review = ({ item }) => {
+const Review = ({ review }) => {
+  const item = review;
   return (
     <div className="mt-4 border-b-1 rounded-xs p-2 border-gray-400">
       <span className="flex flex-row space-x-2 items-center">
@@ -38,4 +39,4 @@ const review = ({ item }) => {
     </div>
   );
 };
-export default review;
+export default Review;
