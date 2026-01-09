@@ -2,39 +2,41 @@ import React from "react";
 import { FaRegThumbsDown, FaRegThumbsUp, FaStar } from "react-icons/fa";
 const Review = ({ review }) => {
   const stars = Array.from({ length: review.star });
-
   const item = review;
   return (
-    <div className="mt-4 border-b-1 rounded-xs p-2 border-gray-400">
-      <span className="flex flex-row space-x-2 items-center">
-        <span>
-          <img
-            src="/images/united-states.png"
-            alt="american logo"
-            className="rounded-full object-cover h-10 w-10"
-          />
-        </span>
-        <span className="text-gray-700 text-sm">
-          <h1>{item.user}</h1>
-          <h2>{item.country}</h2>
-          <span className="flex flex-row text-yellow-400">
-            {stars.map((_, index) => {
-              return <FaStar key={index} />;
-            })}
+    <div className="mt-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition">
+      <div className="flex items-center gap-3">
+        <img
+          src="/images/united-states.png"
+          alt="american logo"
+          className="h-10 w-10 rounded-full object-cover"
+        />
+        <div className="flex flex-col">
+          <h1 className="text-sm font-semibold text-gray-800">{item.user}</h1>
+
+          <span className="flex items-center gap-2 text-xs text-gray-500">
+            {item.country}
+            <span className="flex text-yellow-400">
+              {stars.map((_, index) => (
+                <FaStar key={index} className="h-3.5 w-3.5" />
+              ))}
+            </span>
           </span>
-        </span>
-      </span>
-      <p className="text-[16px] text-gray-500">{item.desc}</p>
-      <div className="flex flex-row space-x-2 mt-2 text-gray-600">
-        <h1>HelpFull?</h1>
-        <span className="flex flex-row items-center space-x-1">
+        </div>
+      </div>
+      <p className="mt-3 text-sm leading-relaxed text-gray-600">{item.desc}</p>
+      <div className="mt-4 flex items-center gap-4 text-sm text-gray-500">
+        <span className="font-medium">Helpful?</span>
+
+        <button className="flex items-center gap-1 hover:text-green-500 transition">
           <FaRegThumbsUp />
-          yes
-        </span>
-        <span className="flex flex-row items-center space-x-1">
+          Yes
+        </button>
+
+        <button className="flex items-center gap-1 hover:text-red-500 transition">
           <FaRegThumbsDown />
           No
-        </span>
+        </button>
       </div>
     </div>
   );
