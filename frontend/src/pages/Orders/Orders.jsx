@@ -1,56 +1,23 @@
 import React from "react";
-// import { use } from 'react'
-// import { useSearchParams } from 'react-router';
-import { useParams } from "react-router";
+import axios from "axios";
 import Footer from "../../Components/Footer/Footer";
-import { Link } from "react-router";
+import { useQuery } from "@tanstack/react-query";
 const Orders = () => {
-  const ordersdata = [
-    {
-      Image: "/images/gig1.png",
-      Title: "Gig1",
-      Price: 88,
-      Buyer: "123",
-      Contact: "delete",
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["order"],
+    queryFn: async () => {
+      const response = await axios.get("http://localhost:3000/order/", {
+        withCredentials: true,
+      });
+      console.log(response?.data);
+      return response.data;
     },
-    {
-      Image: "/images/gig1.png",
-      Title: "Gig1",
-      Price: 88,
-      Buyer: "124",
-      Contact: "delete",
-    },
-    {
-      Image: "/images/gig1.png",
-      Title: "Gig1",
-      Price: 88,
-      Buyer: "125",
-      Contact: "delete",
-    },
-    {
-      Image: "/images/gig1.png",
-      Title: "Gig1",
-      Price: 88,
-      Buyer: "126",
-      Contact: "delete",
-    },
-    {
-      Image: "/images/gig1.png",
-      Title: "Gig1",
-      Price: 88,
-      Buyer: "127",
-      Contact: "delete",
-    },
-    {
-      Image: "/images/gig1.png",
-      Title: "Gig1",
-      Price: 88,
-      Buyer: "128",
-      Contact: "delete",
-    },
-  ];
-
-  return (
+  });
+  return isLoading ? (
+    <div>Loading please wait </div>
+  ) : error ? (
+    <div className="text-red-400 text-sm">{error.message}</div>
+  ) : (
     <>
       <div className="px-66 py-10">
         <span className="flex flex-row justify-between mb-2 w-[73vw] ml-2">
@@ -59,24 +26,24 @@ const Orders = () => {
         <table className="w-[74vw]">
           <tbody>
             <tr className="grid grid-cols-8 space-x-1 m-1">
-              <td className="bg-red-100 px-12 py-2">Images</td>
-              <td className="col-span-4 bg-red-100 px-12 py-2">Title</td>
+              <td className="bg-red-100 px-12 py-2 flex1">Images</td>
+              <td className="col-span-4 bg-red-100 px-12 py-2 flex1">Title</td>
               <td className="bg-red-100 px-12 py-2">Price</td>
-              <td className="bg-red-100 px-12 py-2">Buyers</td>
-              <td className="bg-red-100 px-12 py-2">Contact</td>
+              <td className="bg-red-100 px-12 py-2 flex1">Contact</td>
             </tr>
-            {ordersdata.map((item, index) => {
+            {data.map((item) => {
               return (
                 <tr
-                  key={index}
+                  key={item._id}
                   className="grid grid-cols-8 text-gray-600 space-x-1 m-1"
                 >
-                  <td className="py-8 bg-green-100 p-10">{item.Image}</td>
+                  <td className="py-8 bg-green-100 p-10 flex justify-center items-center">
+                    <img src={item.img} alt="img not found" className="rounded-full h-10 w-10" />
+                  </td>
                   <td className="col-span-4 py-8 bg-green-100 p-10">
-                    {item.Title}
+                    {item.title}
                   </td>
                   <td className="py-8 bg-green-100 p-10">{item.Price}</td>
-                  <td className="py-8 bg-green-100 p-10">{item.Buyer}</td>
                   <td className="py-8 bg-green-100 p-10">
                     <button className="px-4 text-sm bg-green-400 text-white">
                       Delete
