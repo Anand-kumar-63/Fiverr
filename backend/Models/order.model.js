@@ -1,12 +1,15 @@
 import mongoose from "mongoose";
+import user from "../Models/user.js"
+import Gigmodel from "./gig.Schema.js";
 const orderSchema = new mongoose.Schema({
     gigId:{
-        type:String,
-        required:true
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Gigmodel',
+        req:true
     },
     img:{
         type:String,
-        required:false
+        required:true
     },
     title:{
         type:String,
@@ -17,21 +20,27 @@ const orderSchema = new mongoose.Schema({
         required:true
     },
     buyerId:{
-         type:String,
+         type:mongoose.Schema.Types.ObjectId,
+         ref:'user',
          required:true
     },
-    customerId:{
-        type:String,
+    sellerId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'user',
         required:true
     },
     iscompleted:{
         type:Boolean,
-        default:false
+        default:false,
+        required:true
     },
-    Payment_intent:{
+    payment_intent:{
         type:String,
         required:true
     }
 },{
     timestamps:true
 })
+
+const order = mongoose.model("Order",orderSchema);
+export default order;
