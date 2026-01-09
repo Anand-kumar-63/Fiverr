@@ -9,12 +9,13 @@ const Reviews = ({ gigId }) => {
   const Queryclient = useQueryClient();
 
   const { isLoading, error, data } = useQuery({
-    queryKey: ["getreviews"],
+    queryKey: ["getreviews", gigId],
     queryFn: async () => {
-      await axios.get(`http://localhost:3000/reviews/${gigId}`).then((res) => {
-        console.log(res.data);
-        return res.data;
+      const res = await axios.get(`http://localhost:3000/reviews/${gigId}`, {
+        withCredentials: true,
       });
+      console.log(res.data);
+      return res.data;
     },
   });
 
@@ -23,7 +24,7 @@ const Reviews = ({ gigId }) => {
     mutationFn: async (newreview) => {
       const response = await axios.post(
         "http://localhost:3000/reviews/ ",
-         newreview,
+        newreview,
         {
           withCredentials: true,
         }
@@ -35,12 +36,12 @@ const Reviews = ({ gigId }) => {
       Queryclient.invalidateQueries("createreview");
     },
   });
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const desc = e.target[0].value;
-    const star = e.target[1].value;
-    mutation.mutateAsync({ gigId, desc, star });
+    const desc = e.target.desc.value;
+    const star = e.target.name.value;
+    mutation.mutateAsync({ gigId , desc , star });
   };
 
   return (
@@ -61,12 +62,13 @@ const Reviews = ({ gigId }) => {
           {/* Review Input */}
           <textarea
             placeholder="Share your experience..."
+            name="desc"
             className="resize-none h-24 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
           />
 
           {/* Rating + Button */}
           <div className="flex items-center justify-between gap-3">
-            <select className="w-24 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
+            <select className="w-24 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400" name="star">
               <option value="">Rating</option>
               <option value={1}>1</option>
               <option value={2}>2</option>

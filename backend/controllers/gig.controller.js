@@ -38,7 +38,6 @@ export const getGig = async (req, res) => {
     try {
         const existingGig = await Gigmodel.findById(req.params.id);
         if (!existingGig) return next(CreatenewError(400, "Gid doesn't exist"));
-        console.log("jdbci");
         res.status(200).send({ message: "Gig", data: existingGig })
     }
     catch (error) {

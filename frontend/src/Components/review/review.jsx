@@ -1,6 +1,8 @@
 import React from "react";
 import { FaRegThumbsDown, FaRegThumbsUp, FaStar } from "react-icons/fa";
 const Review = ({ review }) => {
+  const stars = Array.from({ length: review.star });
+
   const item = review;
   return (
     <div className="mt-4 border-b-1 rounded-xs p-2 border-gray-400">
@@ -16,15 +18,13 @@ const Review = ({ review }) => {
           <h1>{item.user}</h1>
           <h2>{item.country}</h2>
           <span className="flex flex-row text-yellow-400">
-            <FaStar />
-            <FaStar />
-            <FaStar />
-            <FaStar />
-            <FaStar />
+            {stars.map((_, index) => {
+              return <FaStar key={index} />;
+            })}
           </span>
         </span>
       </span>
-      <p className="text-[16px] text-gray-500">{item.comment}</p>
+      <p className="text-[16px] text-gray-500">{item.desc}</p>
       <div className="flex flex-row space-x-2 mt-2 text-gray-600">
         <h1>HelpFull?</h1>
         <span className="flex flex-row items-center space-x-1">

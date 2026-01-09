@@ -15,25 +15,25 @@ export const createreview = async (req, res, next) => {
         star: req.body.star
     })
     try {
-        // const review = await ReviewModel.findOne({
-        //     gigId: req.body.gigId,
-        //     userId: req.body.userId
-        // })
-        // if (review == null) {
-        //     next(CreatenewError(403, "You have already created a review for this gig!"));
-        // }
+        const review = await ReviewModel.findOne({
+            gigId: req.body.gigId,
+            userId: req.userId
+        })
+        if (review == null) {
+            next(CreatenewError(403, "You have already created a review for this gig!"));
+        }
         // WIP:If the user purchased this gig
         const savedreview = await newReview.save();
         // you have to update the stars in the gig using the gigId
-        // await Gigmodel.findById(
-        //     { _id: req.body.gigId },
-        //     {
-        //         $inc: {
-        //             totalStar: req.body.star,
-        //             starNumber: 1
-        //         }
-        //     }
-        // )
+        await Gigmodel.findById(
+            { _id: req.body.gigId },
+            {
+                $inc: {
+                    totalStar: req.body.star,
+                    starNumber: 1
+                }
+            }
+        )
         res.status(200).json({
             message: "Review created succsfully",
             review: savedreview
@@ -44,11 +44,12 @@ export const createreview = async (req, res, next) => {
 }
 
 export const getreview = async (req, res, next) => {
-    const { gigId } = req.params;
+    const { Id } = req.params;
     try {
-        const reviews = await Gigmodel.find({ gigId });
+        const reviews = await ReviewModel.find({ gigId:Id });
         res.status(200).send(reviews);
-    } catch (error) {
+    }
+    catch (error) {
         next(CreatenewError(400, error));
     }
 }
