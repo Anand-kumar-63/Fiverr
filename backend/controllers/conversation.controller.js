@@ -7,8 +7,8 @@ export const createConversation = async (req, res, next) => {
             id: req.isSeller ? req.userId + req.body.to : req.body.to + req.userId,
             SellerId: req.isSeller ? req.userId : req.body.to,
             BuyerId: req.isSeller ? req.body.to : req.userId,
-            readByBuyer: false,
-            readBySeller: false,
+            readByBuyer: !req.isSeller,
+            readBySeller: req.isSeller,
             lastMessage: req.body.lastMessage
         })
         const savedconversation = await newConversaton.save();
