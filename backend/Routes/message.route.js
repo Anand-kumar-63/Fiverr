@@ -1,10 +1,9 @@
 import express from "express"
 import { jwtverify } from "../middlewares/jwtverify.js";
+import { createmessage , updatemessage , deletemessage } from "../controllers/message.controller.js";
 const messagerouter = express.Router();
 
-// messagerouter.post("/",createGig);
-// messagerouter.delete("/:id",deleteGig);
-// messagerouter.get("/single/:id",getGig);
-// messagerouter.get("/",jwtverify,getGigs);
+messagerouter.post("/",jwtverify,createmessage);
+messagerouter.post("/:Id",jwtverify ,)
 
 export default messagerouter;

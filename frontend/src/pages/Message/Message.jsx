@@ -9,7 +9,6 @@ const Message = () => {
   const user = JSON.parse(localStorage.getItem("currentUser"));
   console.log(user);
   const Queryclient = useQueryClient();
-
   // to fetch the messages
   const { isLoading, error, data } = useQuery({
     queryKey: ["messages"],
@@ -21,7 +20,6 @@ const Message = () => {
       return response.data;
     },
   });
-
   // to update the messages
   const mutationdata = useMutation({
     queryFn: async (message) => {
@@ -58,7 +56,7 @@ const Message = () => {
           error ? (
             <div>Error</div>
           ) : (
-            <div>Loading</div>
+            <p className="text-red-400 text-sm">Loading</p>
           )
         ) : (
           <div>
