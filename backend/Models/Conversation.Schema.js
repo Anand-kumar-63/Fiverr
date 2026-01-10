@@ -1,29 +1,31 @@
 import mongoose from "mongoose";
 const ConversationSchema = new mongoose.Schema({
-    id: {
+    id:{
         type: String,
         required: true,
         unique: true
     },
-    SellerId: {
-        type: String,
+    SellerId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'User',
         required: true
     },
-    BuyerId: {
-        type: String,
+    BuyerId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'User',
         required: true
     },
-    readBySeller: {
+    readBySeller:{
         type: Boolean,
         required: true,
     },
-    readByBuyer: {
+    readByBuyer:{
         type: Boolean,
         required: true,
     }, 
-    lastMessage: {
+    lastMessage:{
         type: String,
-        required: false,
+        required: true,
     },
 },{
     timestamps:true

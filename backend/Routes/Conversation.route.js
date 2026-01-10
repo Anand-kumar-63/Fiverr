@@ -3,7 +3,7 @@ import { getConversation , updateConversation , getSingleConversation , createCo
 import { jwtverify } from "../middlewares/jwtverify.js";
 const conversationRouter = express.Router();
 
-conversationRouter.post("/" ,jwtverify, createConversation);
+conversationRouter.post("/" , jwtverify , createConversation);
 conversationRouter.post("/:Id" , updateConversation);
 conversationRouter.get("/single/:Id", jwtverify , getSingleConversation)
 conversationRouter.get("/", jwtverify , getConversation)

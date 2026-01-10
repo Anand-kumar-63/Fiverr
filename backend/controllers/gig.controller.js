@@ -56,7 +56,7 @@ export const getGigs = async (req, res) => {
         ...(q.search && { title: { $regex: q.search, $options: "i" } })
     }
     try {
-        const gigs = await Gigmodel.find(filters).sort({[q.sort]:-1});
+        const gigs = await Gigmodel.find(filters).populate("userId").sort({[q.sort]:-1});
         return res.status(200).json(gigs); 
     }
     catch (error) {
