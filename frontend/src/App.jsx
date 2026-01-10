@@ -13,6 +13,7 @@ import Messages from "./pages/Messages/Messages";
 import Errorpage from "./pages/Errorpage/Errorpage";
 import AddnewGigs from "./pages/AddnewGigs/AddnewGigs";
 import Message from "./pages/Message/Message";
+import { Toaster } from "react-hot-toast";
 // import { Login } from "../../backend/controllers/user";
 import Login from "./pages/Login/login";
 import React from "react";
