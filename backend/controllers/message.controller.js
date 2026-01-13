@@ -25,6 +25,7 @@ export const createmessage = async (req, res, next) => {
     }
 }
 export const getmessages = async (req, res, next) => {
+    console.log("hey getting the data");
     try {
         const messages = await Message.find({
             conversationId: req.params.Id

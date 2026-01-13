@@ -31,9 +31,8 @@ function App() {
           <Navbar />
           <Routes>
             <Route index element={<Home />} errorElement={<Errorpage />} />
-            <Route path="/message/:messageId" element={<Message />} />
+            <Route path="/message/:Id" element={<Message />} />
             <Route path="/messages" element={<Messages />} />
-            <Route path="/message" element={<Message />}/>
             <Route path="/gigs" element={<Gigs />} />
             <Route path="/gig/:gigId" element={<Gig />} />
             <Route path="/order/:orderId" element={<Order />} />

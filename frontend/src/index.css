@@ -2,14 +2,12 @@
   font-family: Klavika;
   src: url('../public/Fonts/klavika-bold-italic.otf') format('otf');
 }
-
 @font-face {
   font-family: 'Bodoni';
   font-style: normal;
   font-weight: normal;
   src: local('Bodoni'), url('../public/Fonts/bodoni_[allfont.net].woff') format('woff');
 }
-
 @font-face {
   font-family: 'Arial MT Medium';
   font-style: normal;
@@ -18,18 +16,12 @@
 }
 
 @import "tailwindcss";
-
 @import "tw-animate-css";
-
 @custom-variant dark (&:is(.dark *));
-
 @theme {
   --font-klaika: klavika, "sans-serif";
   --font-bodoni: Bodoni, "sans-serif";
   --font-Arial-md: Arial-md , "sans-serif";
-}
-@theme{
-
 }
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -112,9 +104,21 @@ button:focus-visible {
   transition: border-color 0.25s;
 } */
 body {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri , 'Trebuchet MS', sans-serif; */
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+@layer utilities {
+    /* Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+}
 @layer components {
   .flex1 {
     display: flex;

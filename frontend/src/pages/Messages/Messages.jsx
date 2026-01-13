@@ -62,7 +62,7 @@ const Messages = () => {
             <table className="w-[74vw]">
               <thead>
                 <tr className="grid grid-cols-7 space-x-1 m-1">
-                  <td className="bg-red-100 px-12 py-2">Buyer</td>
+                  <td className="bg-red-100 px-12 py-2">{user.isSeller?"Seller":"Buyer"}</td>
                   <td className="col-span-4 bg-red-100 px-12 py-2">
                     Last Message
                   </td>
@@ -74,6 +74,7 @@ const Messages = () => {
               <tbody>
                 {data.map((item, index) => {
                   return (
+                    <Link to={`/message/${item.id}`}>
                     <tr
                       key={index}
                       className="grid grid-cols-7 text-gray-600 space-x-1 m-1"
@@ -99,6 +100,7 @@ const Messages = () => {
                         )}
                       </td>
                     </tr>
+                    </Link>
                   );
                 })}
               </tbody>
