@@ -2,7 +2,6 @@ import dotenv from "dotenv";
 import express from 'express';
 import ConnectDB from './DBConnect.js';
 import cors from 'cors'
-
 import userrouter from "./Routes/user.route.js";
 import conversationRouter from "./Routes/Conversation.route.js"
 import gigrouter from "./Routes/Gig.route.js";
@@ -20,16 +19,15 @@ app.use(cors({
   origin: "http://localhost:5173",
   credentials: true
 }));
-// User Auth Routes 
-app.use("/auth",authrouter)
-app.use("/cloud",cloudinaryrouter)
+app.use("/auth",authrouter);
+app.use("/cloud",cloudinaryrouter);
 app.use("/user",userrouter);
 app.use("/message", messagerouter);
 app.use("/order", orderrouter);
 app.use("/conversation", conversationRouter);
 app.use("/gig", gigrouter);
 app.use("/reviews", reviewrouter);
-//Error handleing Middleware
+
 app.use((err, req, res, next) => {
   res.status(400).send(err.message);
 })
