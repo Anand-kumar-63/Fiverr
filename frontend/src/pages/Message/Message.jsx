@@ -54,8 +54,8 @@ const Message = () => {
 
   return (
     <div className="p-2">
-      <span className="text-gray-600 ml-[420px]">
-        <Link to={"/messages"}>Messages</Link> {"<" + "john doe" + "<"}
+      <span className="text-blue-600 font-bold text-xl ml-[420px]">
+        <Link to={"/messages"}>Messages</Link> {"<" + user.username + "<"}
       </span>
       <div className="flex flex-col items-center justify-center">
         {isLoading ? (
@@ -67,7 +67,7 @@ const Message = () => {
         ) : (
           <div
             className={
-              "overflow-auto h-[68vh] w-[50vw] m-2 border-x-2 border-gray-100 rounded-xl no-scrollbar"
+              "overflow-auto h-[68vh] w-[50vw] m-2 border-x-2 border-gray-200 rounded-xl no-scrollbar"
               // m.userId === user._id ?
             }
           >

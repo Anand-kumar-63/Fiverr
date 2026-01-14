@@ -13,6 +13,8 @@ import Messages from "./pages/Messages/Messages";
 import Errorpage from "./pages/Errorpage/Errorpage";
 import AddnewGigs from "./pages/AddnewGigs/AddnewGigs";
 import Message from "./pages/Message/Message";
+import Pays from "./pages/pays/Pays";
+import Success from "./pages/Success/success";
 import { Toaster } from "react-hot-toast";
 // import { Login } from "../../backend/controllers/user";
 import Login from "./pages/Login/login";
@@ -37,6 +39,8 @@ function App() {
             <Route path="/gig/:gigId" element={<Gig />} />
             <Route path="/order/:orderId" element={<Order />} />
             <Route path="/Orders" element={<Orders />} />
+            <Route path="/pay/:Id" elemen={<Pays />}/>
+            <Route path="/success" element={<Success />} />
             <Route path="/profilepage" element={<Profilepage />} />
             <Route path="/addnewgigs" element={<AddnewGigs />} />
             <Route path="/Login" element={<Login />}></Route>
