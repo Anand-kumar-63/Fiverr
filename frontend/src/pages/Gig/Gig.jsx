@@ -48,7 +48,6 @@ const Gig = () => {
       );
       return response?.data;
     },
-    
   });
   const gigdata = data?.data;
   console.log(gigdata);
@@ -145,9 +144,11 @@ const Gig = () => {
             )}
           </ul>
 
-          <button className="text-white bg-green-400 py-1 rounded">
-            Continue  
-          </button>
+          <Link to={`/pay/${id}`}>
+            <button className="w-1/1 text-white bg-green-400 py-1 rounded">
+              Continue
+            </button>
+          </Link>
         </div>
       </div>
 

@@ -10,6 +10,7 @@ const Pay = () => {
   const [clientSecret, setclientSecret] = useState("");
   const { Id } = useParams();
   useEffect(() => {
+    console.log("hey there i am in page");
     const makeRequest = async () => {
       try {
         const res = await axios.post(`/order/create-payment-intent/${Id}`);
@@ -39,4 +40,4 @@ const Pay = () => {
   </div>;
 };
 
-export default Pays;
+export default Pay;
