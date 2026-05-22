@@ -1,49 +1,45 @@
 import { useState, useEffect } from "react";
-import React from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
-// import Newrequest from "@/utils/axiosInstance";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
 import axios from "axios";
-// import { Button } from "../ui/button";
-// import { useParams } from "react-router-dom";
-// import { useEffectEvent } from "react";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  // const [join , setjoin] = useState(true);
-  const [activedownbar, setactivedownbar] = useState(true);
-  const [isuseractive, setuseractive] = useState(false);
-  const [togglebtn, settogglebtn] = useState(false);
-
-  const [user, setuser] = useState({
+  const [activedownbar] = useState(true);
+  const [isuseractive, setUserActive] = useState(false);
+  const [togglebtn, setToggleBtn] = useState(false);
+  const [user, setUser] = useState({
     username: "",
     email: "",
+    image: "",
   });
 
   useEffect(() => {
-    const currectuser = localStorage.getItem("currentUser");
-    const parseduser = JSON.parse(currectuser);
-    if (parseduser) {
-      setuseractive(true);
-      setuser({
-        username: parseduser.username,
-        email: parseduser.email,
-        image: parseduser.image,
+    const currentUser = localStorage.getItem("currentUser");
+    if (!currentUser) return;
+    try {
+      const parsed = JSON.parse(currentUser);
+      setUserActive(true);
+      setUser({
+        username: parsed.username,
+        email: parsed.email,
+        image: parsed.image,
       });
+    } catch {
+      localStorage.removeItem("currentUser");
     }
   }, [navigate]);
 
-  async function logoutuser() {
+  async function logoutUser() {
     try {
-      const Response = await axios.post(
+      await axios.post(
         "http://localhost:3000/auth/logout",
         {},
         { withCredentials: true }
       );
-      console.log(Response?.data);
       localStorage.removeItem("currentUser");
+      setUserActive(false);
       navigate("/login");
     } catch (error) {
       console.log("Logout failed", error);
@@ -51,96 +47,92 @@ const Navbar = () => {
   }
 
   return (
-    <>
-      <ErrorBoundary fallback={<div>Seomthing went Wrong</div>}>
-        <div className="sticky top-0 relative select-none z-50">
-          <nav className="flex flex-row justify-around items-center bg-white h-16">
-            <Link to={"/"}>
-              <div>
-                <span className="text-3xl font-extrabold" id="Logo">
-                  Fiverr
-                </span>
-                <span className="text-green-400 text-3xl" id="dot">
-                  .
+    <ErrorBoundary fallback={<div>Something went wrong</div>}>
+      <div className="sticky top-0 relative select-none z-50">
+        <nav className="flex flex-row justify-around items-center bg-white h-16">
+          <Link to="/">
+            <div>
+              <span className="text-3xl font-extrabold">Fiverr</span>
+              <span className="text-green-400 text-3xl">.</span>
+            </div>
+          </Link>
+          <div className="flex flex-row justify-between items-center mt-1 gap-2">
+            <ul className="flex flex-row gap-5 text-md">
+              <li>Fiverr Business</li>
+              <li>Explore</li>
+              <li>English</li>
+              {!isuseractive && (
+                <li>
+                  <Link to="/login">Sign-in</Link>
+                </li>
+              )}
+              <li>Become a Seller</li>
+            </ul>
+            {!isuseractive && (
+              <Link to="/signup">
+                <button className="ml-2 py-2 px-6 rounded-sm border-2 border-green-300">
+                  Join
+                </button>
+              </Link>
+            )}
+            {isuseractive && (
+              <div
+                className="flex flex-row items-center p-1 px-1 cursor-pointer"
+                onClick={() => setToggleBtn(!togglebtn)}
+              >
+                <Avatar>
+                  <AvatarImage src={user.image} alt={user.username} />
+                  <AvatarFallback>{user.username?.[0] || "U"}</AvatarFallback>
+                </Avatar>
+                <span className="flex flex-col px-1 text-sm font-light text-gray-600">
+                  {user.username}
+                  <br />
+                  {user.email}
                 </span>
               </div>
-            </Link>
-            <div className="flex flex-row justify-between items-center mt-1 gap-2">
-              <ul className="flex flex-row gap-5 text-md">
-                <li>Fiverr Bussiness</li>
-                <li>Explore</li>
-                <li>English</li>
-                {!isuseractive && <li>Sign-in</li>}
-                <li>Became a Seller</li>
-              </ul>
-              {!isuseractive && (
-                <Link to={"/Signup"}> 
-                  <button className="ml-2 bg-green-300 py-2 px-6 rounded-sm bg-transparent border-2 border-green-300">
-                    Join in
-                  </button>
-                </Link>
-              )}
-              {isuseractive && (
-                <div
-                  className="flex flex-row items-center p-1 px-1"
-                  onClick={() => {
-                    settogglebtn(!togglebtn);
-                  }}
-                >
-                  <Avatar>
-                    <AvatarImage src={user.image} alt="@shadcn" />
-                    <AvatarFallback>{user.username[0]}</AvatarFallback>
-                  </Avatar>
-                  <span className="flex flex-col px-1 text-sm font-light text-gray-600">
-                    {user.username || "tanziro"}
-                    <br />
-                    {user.email || "tanziro@gmail.com"}
-                  </span>
-                </div>
-              )}
-            </div>
-          </nav>
-          <hr className="text-gray-300" />
-          {togglebtn && (
-            <div className="bg-amber-50 w-40 flex justify-center absolute top-18 right-64 cursor-pointer p-1 rounded-sm">
-              <ul className="flex flex-col text-gray-400">
-                <Link to={"/gigs"}>
-                  <li>Gigs</li>
-                </Link>
-                <Link to={"/addnewgigs"}>
-                  <li>Add new Gigs</li>
-                </Link>
-                <Link to={"/orders"}>
-                  <li>Orders</li>
-                </Link>
-                <Link to={"/messages"}>
-                  <li>Messages</li>
-                </Link>
-
-                <li onClick={logoutuser} id="logout" className="font-sans">
-                  Logout
-                </li>
-              </ul>
-            </div>
-          )}
-          {activedownbar && (
-            <div className="bg-gray-100 flex1 p-1">
-              <ul className="font-light text-gray-400 text-sm flex flex-row gap-[46px]">
-                <li>Graphic Desgin</li>
-                <li>Video Animation</li>
-                <li>Writing and Tanslation</li>
-                <li>Ai Services</li>
-                <li>Digital Marketing</li>
-                <li>Music & Audio</li>
-                <li>Bussiness</li>
-                <li>Lifestyle</li>
-                <li>Programming & Tech</li>
-              </ul>
-            </div>
-          )}
-        </div>
-      </ErrorBoundary>
-    </>
+            )}
+          </div>
+        </nav>
+        <hr className="text-gray-300" />
+        {togglebtn && isuseractive && (
+          <div className="bg-amber-50 w-40 flex justify-center absolute top-18 right-64 cursor-pointer p-1 rounded-sm">
+            <ul className="flex flex-col text-gray-400 gap-1">
+              <Link to="/gigs">
+                <li>Gigs</li>
+              </Link>
+              <Link to="/addnewgigs">
+                <li>Add new Gigs</li>
+              </Link>
+              <Link to="/orders">
+                <li>Orders</li>
+              </Link>
+              <Link to="/messages">
+                <li>Messages</li>
+              </Link>
+              <li onClick={logoutUser} className="font-sans">
+                Logout
+              </li>
+            </ul>
+          </div>
+        )}
+        {activedownbar && (
+          <div className="bg-gray-100 p-1">
+            <ul className="font-light text-gray-400 text-sm flex flex-row gap-[46px]">
+              <li>Graphic Design</li>
+              <li>Video Animation</li>
+              <li>Writing and Translation</li>
+              <li>AI Services</li>
+              <li>Digital Marketing</li>
+              <li>Music & Audio</li>
+              <li>Business</li>
+              <li>Lifestyle</li>
+              <li>Programming & Tech</li>
+            </ul>
+          </div>
+        )}
+      </div>
+    </ErrorBoundary>
   );
 };
+
 export default Navbar;

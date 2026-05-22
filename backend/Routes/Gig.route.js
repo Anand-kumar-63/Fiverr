@@ -1,12 +1,19 @@
-import express from "express"
+import express from "express";
 import { jwtverify } from "../middlewares/jwtverify.js";
-import { createGig, updateGig, getGig, getGigs, deleteGig } from "../controllers/gig.controller.js";
+import {
+  createGig,
+  updateGig,
+  getGig,
+  getGigs,
+  deleteGig,
+} from "../controllers/gig.controller.js";
+
 const gigrouter = express.Router();
 
-gigrouter.post("/", createGig);
-gigrouter.delete("/:id", deleteGig);
-gigrouter.get("/single/:id", jwtverify , getGig);
-gigrouter.get("/",getGigs);
-gigrouter.post("/update",jwtverify , updateGig);
+gigrouter.post("/", jwtverify, createGig);
+gigrouter.delete("/:id", jwtverify, deleteGig);
+gigrouter.get("/single/:id", getGig);
+gigrouter.get("/", getGigs);
+gigrouter.put("/:id", jwtverify, updateGig);
 
-export default gigrouter;   
+export default gigrouter;

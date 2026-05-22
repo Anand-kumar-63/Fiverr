@@ -1,59 +1,93 @@
 import React, { useState } from "react";
 import Footer from "../../Components/Footer/Footer";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const AddNewGigs = () => {
   const navigate = useNavigate();
-  const [gigdata, setgigdata] = useState({
+  const [gigData, setGigData] = useState({
     title: "",
-    category: "",
-    coverimage: "",
-    uploadimages: "",
-    description: "",
-    servicetitle: "",
-    shortdescription: "",
-    deliverytime: "",
-    revisionnumber: "",
-    addfeatures: "",
+    category: "Design",
+    desc: "",
+    shortTitle: "",
+    shortdesc: "",
+    DeliveryTime: "",
+    revisionNumber: "",
+    price: "",
+    CoverImg: "",
+    Image: [],
+    Features: [],
   });
-  console.log(gigdata);
-  const handlechange = (e) => {
-    e.preventDefault();
-    setgigdata((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
+  const [featureInput, setFeatureInput] = useState("");
+
+  const handleChange = (e) => {
+    setGigData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handlesubmit = async (e) => {
-    e.preventDefault();
-    const gigdata = {
-      title: "",
-      category: "",
-      coverimage: "",
-      uploadimages: "",
-      description: "",
-      servicetitle: "",
-      shortdescription: "",
-      deliverytime: "",
-      revisionnumber: "",
-      addfeatures: "",
-    };
+  const uploadFile = async (file) => {
+    const data = new FormData();
+    data.append("file", file);
+    const res = await axios.post("http://localhost:3000/cloud/upload", data, {
+      headers: { "Content-Type": "multipart/form-data" },
+      withCredentials: true,
+    });
+    return res.data.url;
+  };
+
+  const handleCoverChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
     try {
-      const response = await axios.post("http://localhost:3000/gig/",
-         gigdata, 
-         {withCredentials: true}
-      );
-      if(!response.data){
-        console.log("Error");
-        return;
-      }
-      const gig = response.data;
-      console.log(gig);
-      navigate("/gigpage");
-    } catch(error){
-      console.log("gigcreation failed",error);
-      return;
+      const url = await uploadFile(file);
+      setGigData((prev) => ({ ...prev, CoverImg: url }));
+    } catch {
+      toast.error("Cover image upload failed");
+    }
+  };
+
+  const handleImagesChange = async (e) => {
+    const files = Array.from(e.target.files || []);
+    try {
+      const urls = await Promise.all(files.map((f) => uploadFile(f)));
+      setGigData((prev) => ({ ...prev, Image: urls }));
+    } catch {
+      toast.error("Gallery upload failed");
+    }
+  };
+
+  const addFeature = () => {
+    if (!featureInput.trim()) return;
+    setGigData((prev) => ({
+      ...prev,
+      Features: [...prev.Features, featureInput.trim()],
+    }));
+    setFeatureInput("");
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const payload = {
+        title: gigData.title,
+        category: gigData.category,
+        desc: gigData.desc,
+        shortTitle: gigData.shortTitle,
+        shortdesc: gigData.shortdesc,
+        DeliveryTime: Number(gigData.DeliveryTime),
+        revisionNumber: Number(gigData.revisionNumber),
+        price: Number(gigData.price),
+        CoverImg: gigData.CoverImg,
+        Image: gigData.Image,
+        Features: gigData.Features,
+      };
+      await axios.post("http://localhost:3000/gig/", payload, {
+        withCredentials: true,
+      });
+      toast.success("Gig created");
+      navigate("/gigs");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Gig creation failed");
     }
   };
 
@@ -61,190 +95,101 @@ const AddNewGigs = () => {
     <div className="p-4 md:p-4 flex flex-col items-center space-y-6">
       <h1 className="text-3xl text-gray-700 font-bold">Add New Gig</h1>
       <form
-        action=""
-        onSubmit={handlesubmit}
-        className="grid grid-cols-1 select-none md:grid-cols-2 gap-x-10 w-full max-w-6xl "
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-2 gap-x-10 w-full max-w-6xl"
       >
-        {/* Left Column */}
         <div className="flex flex-col space-y-2">
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="title" className="text-lg font-bold text-gray-800">
-              Title
-            </label>
-            <input
-              type="text"
-              name="title"
-              id="title"
-              onChange={handlechange}
-              placeholder="e.g., I will do something I am good at"
-              className="border-2 border-gray-300 rounded-sm p-2 focus:outline-none focus:ring-none"
-            />
-          </div>
-
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="category"
-              className="text-lg font-semibold text-gray-800"
-            >
-              Category
-            </label>
-            <select
-              name="category"
-              id="category"
-              onChange={handlechange}
-              className="border-2 border-gray-300 rounded-sm p-2 w-full focus:outline-none focus:ring-none"
-            >
-              <option value="Design">Design</option>
-              <option value="Web Development">Web Development</option>
-              <option value="Mobile Development">Mobile Development</option>
-              <option value="Game Development">Game Development</option>
-            </select>
-          </div>
-
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="cover"
-              className="text-lg font-semibold text-gray-800"
-            >
-              Cover Image
-            </label>
-            <input
-              onChange={handlechange}
-              className="w-full p-2 focus:outline-none focus:ring-none"
-              type="file"
-              name="coverimage"
-              id="cover"
-              multiple
-            />
-          </div>
-
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="upload-images"
-              className="text-lg font-semibold text-gray-800"
-            >
-              Upload Images
-            </label>
-            <input
-              onChange={handlechange}
-              type="file"
-              name="uploadimages"
-              id="upload-images"
-              className="w-full p-2 focus:outline-none focus:ring-none"
-              multiple
-            />
-          </div>
-
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="description"
-              className="text-lg font-semibold text-gray-800"
-            >
-              Description
-            </label>
-            <textarea
-              name="description"
-              id="description"
-              rows={6}
-              onChange={handlechange}
-              className="border-2 border-gray-300 rounded-sm p-2 focus:outline-none focus:ring-none resize-y"
-              placeholder="Provide a detailed description of your gig..."
-            ></textarea>
-          </div>
+          <input
+            type="text"
+            name="title"
+            placeholder="Gig title"
+            onChange={handleChange}
+            required
+            className="border-2 rounded-sm p-2"
+          />
+          <select name="category" onChange={handleChange} className="border-2 rounded-sm p-2">
+            <option value="Design">Design</option>
+            <option value="Web Development">Web Development</option>
+            <option value="Mobile Development">Mobile Development</option>
+            <option value="Game Development">Game Development</option>
+          </select>
+          <input type="file" onChange={handleCoverChange} required />
+          <input type="file" multiple onChange={handleImagesChange} />
+          <textarea
+            name="desc"
+            rows={6}
+            placeholder="Description"
+            onChange={handleChange}
+            required
+            className="border-2 rounded-sm p-2"
+          />
         </div>
-
-        {/* Right Column */}
-        <div className="flex flex-col space-y-1">
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="service-title"
-              className="text-lg font-semibold text-gray-800"
-            >
-              Service Title
-            </label>
-            <input
-              className="border-2 border-gray-300 rounded-sm p-2 focus:outline-none focus:ring-none"
-              onChange={handlechange}
-              type="text"
-              name="servicetitle"
-              id="service-title"
-              placeholder="e.g., Basic Package"
-            />
-          </div>
-
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="short-description"
-              className="text-lg font-semibold text-gray-800"
-            >
-              Short Description
-            </label>
-            <textarea
-              name="shortdescription"
-              id="short-description"
-              rows={6}
-              onChange={handlechange}
-              className="border-2 border-gray-300 rounded-sm p-2 focus:outline-none focus:ring-none resize-y"
-              placeholder="A brief summary of your service..."
-            ></textarea>
-          </div>
-
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="delivery-time"
-              className="text-lg font-semibold text-gray-800"
-            >
-              Delivery Time
-            </label>
-            <input
-              type="datetime-local"
-              id="delivery-time"
-              name="deliverytime"
-              onChange={handlechange}
-              placeholder="e.g., 3 days"
-              className="border-2 border-gray-300 rounded-sm p-2 focus:outline-none focus:ring-none"
-            />
-          </div>
-
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="revision-number"
-              className="text-lg font-semibold text-gray-800"
-            >
-              Revision Number
-            </label>
-            <input
-              type="number"
-              name="revisionnumber"
-              id="revision-number"
-              placeholder="e.g., 2"
-              onChange={handlechange}
-              className="border-2 border-gray-300 rounded-sm p-2 focus:outline-none focus:ring-none"
-            />
-          </div>
-
-          <div className="flex flex-col space-y-2">
-            <label
-              htmlFor="add-features"
-              className="text-lg font-semibold text-gray-800"
-            >
-              Add features
-            </label>
+        <div className="flex flex-col space-y-2">
+          <input
+            type="text"
+            name="shortTitle"
+            placeholder="Service title"
+            onChange={handleChange}
+            required
+            className="border-2 rounded-sm p-2"
+          />
+          <textarea
+            name="shortdesc"
+            rows={4}
+            placeholder="Short description"
+            onChange={handleChange}
+            required
+            className="border-2 rounded-sm p-2"
+          />
+          <input
+            type="number"
+            name="DeliveryTime"
+            placeholder="Delivery time (days)"
+            onChange={handleChange}
+            required
+            className="border-2 rounded-sm p-2"
+          />
+          <input
+            type="number"
+            name="revisionNumber"
+            placeholder="Revisions"
+            onChange={handleChange}
+            required
+            className="border-2 rounded-sm p-2"
+          />
+          <input
+            type="number"
+            name="price"
+            placeholder="Price ($)"
+            onChange={handleChange}
+            required
+            className="border-2 rounded-sm p-2"
+          />
+          <div className="flex gap-2">
             <input
               type="text"
-              id="add-features"
-              name="addfeatures"
-              onChange={handlechange}
-              placeholder="e.g., Custom assets, Source files"
-              className="border-2 border-gray-300 rounded-sm p-2 focus:outline-none focus:ring-none"
+              value={featureInput}
+              onChange={(e) => setFeatureInput(e.target.value)}
+              placeholder="Add feature"
+              className="border-2 rounded-sm p-2 flex-1"
             />
+            <button type="button" onClick={addFeature} className="bg-gray-200 px-4 rounded">
+              Add
+            </button>
           </div>
+          <ul className="text-sm text-gray-600">
+            {gigData.Features.map((f, i) => (
+              <li key={i}>{f}</li>
+            ))}
+          </ul>
         </div>
+        <button
+          type="submit"
+          className="col-span-full text-lg text-white font-bold bg-green-500 py-2 px-8 rounded-sm hover:bg-green-600 md:col-span-2"
+        >
+          Create New Gig
+        </button>
       </form>
-      <button className="text-lg text-white font-bold bg-green-500 py-2 px-8 rounded-sm hover:bg-green-600 transition-colors duration-200">
-        Create New Gig
-      </button>
-
       <Footer />
     </div>
   );

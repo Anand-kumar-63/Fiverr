@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import Featured from "../../Components/Featured/Featured";
 import Trustedby from "../../Components/Trustedby/Trustedby";
 import Footer from "../../Components/Footer/Footer";
-import Slide from "../../Components/slide/slide.jsx";
+import Slide from "../../Components/slide/Slide";
 import { cards } from "../../data.js";
 import { productData } from "@/data.js";
 import Features from "../../Components/Features/Features";

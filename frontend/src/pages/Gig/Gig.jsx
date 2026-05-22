@@ -17,7 +17,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
+} from "@/Components/ui/carousel";
 import { info } from "./Data";
 import { Card, CardContent } from "@/Components/ui/card";
 import { useQuery } from "@tanstack/react-query";
@@ -52,8 +52,9 @@ const Gig = () => {
   const gigdata = data?.data;
   console.log(gigdata);
   // to get the current user from the localhost
-  const currentuser = localStorage.getItem("currentUser");
-  const parsedUser = JSON.parse(currentuser);
+  const storedUser = localStorage.getItem("currentUser");
+  const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+  const seller = gigdata?.userId;
 
   // to calculate the date
   const date = new Date(gigdata?.createdAt);
@@ -64,7 +65,9 @@ const Gig = () => {
 
   // Array for the stars
   const stararray = Array.from({
-    length: Math.round(gigdata?.totalStar / gigdata?.starNumber),
+    length: gigdata?.starNumber
+      ? Math.round(gigdata.totalStar / gigdata.starNumber)
+      : 0,
   });
 
   return !isPending ? (
@@ -75,7 +78,7 @@ const Gig = () => {
           <h1 className="text-2xl text-black font-bold">{gigdata.title}</h1>
 
           <span className="space-y-2 flex flex-row items-center space-x-2">
-            <h1 className="mt-2">{parsedUser.username}</h1>
+            <h1 className="mt-2">{seller?.username || parsedUser?.username || "Seller"}</h1>
           </span>
 
           <Carousel
@@ -85,7 +88,7 @@ const Gig = () => {
             className="w-full max-w-2xl h-[440px]"
           >
             <CarouselContent>
-              {gigdata.Image.map((img, index) => (
+              {(gigdata?.Image?.length ? gigdata.Image : [gigdata?.CoverImg]).filter(Boolean).map((img, index) => (
                 <CarouselItem key={index} className="">
                   <div className="p-1 flex justify-center">
                     <Card className="h-[440px] w-[580px] flex justify-center items-center">
@@ -130,7 +133,7 @@ const Gig = () => {
 
           <ul>
             {!isPending ? (
-              gigdata.Features.map((item, index) => (
+              (gigdata?.Features || []).map((item, index) => (
                 <li
                   key={index}
                   className="flex flex-row items-center space-x-1 text-green-500"
@@ -170,7 +173,7 @@ const Gig = () => {
             />
           </span>
           <span className="flex flex-col space-y-1 max-w-[200px]">
-            <h1>{parsedUser.username}</h1>
+            <h1>{seller?.username || parsedUser?.username || "Seller"}</h1>
             <ul className="flex flex-row space-x-1 text-amber-300">
               {stararray.map((_, index) => {
                 return <FaStar key={index} />;

@@ -3,11 +3,12 @@ const reviewSchema = new mongoose.Schema({
     gigId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref:"Gigmodel"
+        ref: "Gig"
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        required:"UserModel"
+        ref: "User",
+        required: true
     },
     star: {
         type: Number,

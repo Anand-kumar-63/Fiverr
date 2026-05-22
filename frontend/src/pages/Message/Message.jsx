@@ -8,7 +8,8 @@ import { Button } from "@/Components/ui/button";
 const Message = () => {
   const { Id } = useParams();
   console.log(Id);
-  const user = JSON.parse(localStorage.getItem("currentUser"));
+  const stored = localStorage.getItem("currentUser");
+  const user = stored ? JSON.parse(stored) : null;
   const Queryclient = useQueryClient();
 
   // to fetch the messages
@@ -37,7 +38,7 @@ const Message = () => {
       return response?.data;
     },
     onSuccess: () => {
-      Queryclient.invalidateQueries(["messages", Id]);
+      Queryclient.invalidateQueries({ queryKey: ["messages", Id] });
     },
   });
 
@@ -71,11 +72,11 @@ const Message = () => {
               // m.userId === user._id ?
             }
           >
-            {data.map((m) => {
+            {data?.map((m) => {
               return (
                 <div
                   className={
-                    m.userId === user._id
+                    user && String(m.userId) === String(user._id)
                       ? "flex flex-row-reverse items-center justify-start m-2 rounded-4xl p-1"
                       : "flex flex-row items-center m-2 rounded-4xl p-1"
                   }

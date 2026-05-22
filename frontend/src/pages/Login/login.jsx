@@ -88,7 +88,7 @@ const Login = () => {
       )}
       <p className="text-sm">
         new here? Create new accout{" "}
-        <Link to={"/Signup"}>
+        <Link to={"/signup"}>
           <span className="text-blue-500 text-sm">signup</span>
         </Link>
       </p>

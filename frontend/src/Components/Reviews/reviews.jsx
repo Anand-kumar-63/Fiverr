@@ -1,12 +1,11 @@
 import React from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useQueryClient } from "@tanstack/react-query";
-// import review from "../review/review";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Review from "../review/review";
 import { ErrorBoundary } from "react-error-boundary";
+
 const Reviews = ({ gigId }) => {
-  const Queryclient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const { isLoading, error, data } = useQuery({
     queryKey: ["getreviews", gigId],
@@ -14,38 +13,40 @@ const Reviews = ({ gigId }) => {
       const res = await axios.get(`http://localhost:3000/reviews/${gigId}`, {
         withCredentials: true,
       });
-      console.log(res.data);
       return res.data;
     },
+    enabled: !!gigId,
   });
 
   const mutation = useMutation({
-    mutationKey: ["createreview"],
     mutationFn: async (newreview) => {
       const response = await axios.post(
-        "http://localhost:3000/reviews/ ",
+        "http://localhost:3000/reviews/",
         newreview,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
-      console.log(response?.data);
       return response?.data;
     },
     onSuccess: () => {
-      Queryclient.invalidateQueries("createreview");
+      queryClient.invalidateQueries({ queryKey: ["getreviews", gigId] });
     },
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const desc = e.target.desc.value;
-    const star = e.target.name.value;
-    mutation.mutateAsync({ gigId , desc , star });
+    const star = e.target.star.value;
+    if (!star) return;
+    await mutation.mutateAsync({
+      gigId,
+      desc,
+      star: Number(star),
+    });
+    e.target.reset();
   };
 
   return (
-    <ErrorBoundary fallback={"<div>There is something wrong!</div>"}>
+    <ErrorBoundary fallback={<div>Something went wrong</div>}>
       <div className="mt-10 mb-10">
         <h1 className="text-2xl font-semibold">Reviews</h1>
         {isLoading ? (
@@ -53,35 +54,38 @@ const Reviews = ({ gigId }) => {
         ) : error ? (
           <p className="text-red-500 text-sm">Something went wrong</p>
         ) : (
-          data.map((review) => <Review review={review} key={review._id} />)
+          data?.map((review) => <Review review={review} key={review._id} />)
         )}
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">
-          Add a Review
-        </h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">Add a Review</h3>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          {/* Review Input */}
           <textarea
             placeholder="Share your experience..."
             name="desc"
-            className="resize-none h-24 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
+            required
+            className="resize-none h-24 p-3 border border-gray-300 rounded-md"
           />
-
-          {/* Rating + Button */}
           <div className="flex items-center justify-between gap-3">
-            <select className="w-24 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400" name="star">
-              <option value="">Rating</option>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
-            </select>
-
-            <button
-              className="px-6 py-2 bg-green-500 text-white font-medium rounded-md hover:bg-green-600 transition duration-200 active:scale-95"
-              type="submit"
+            <select
+              className="w-24 p-2 border border-gray-300 rounded-md"
+              name="star"
+              required
+              defaultValue=""
             >
-              {mutation.isLoading ? "submitting" : "Submit"}
+              <option value="" disabled>
+                Rating
+              </option>
+              {[1, 2, 3, 4, 5].map((n) => (
+                <option key={n} value={n}>
+                  {n}
+                </option>
+              ))}
+            </select>
+            <button
+              className="px-6 py-2 bg-green-500 text-white font-medium rounded-md"
+              type="submit"
+              disabled={mutation.isPending}
+            >
+              {mutation.isPending ? "Submitting..." : "Submit"}
             </button>
           </div>
         </form>

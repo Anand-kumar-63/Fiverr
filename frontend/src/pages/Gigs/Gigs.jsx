@@ -1,88 +1,60 @@
-import React, { useEffect, useRef, useState } from "react";
-// import { useLocation, useParams } from "react-router";
+import React, { useRef, useState } from "react";
 import { IoMdHeart } from "react-icons/io";
 import { FaStar } from "react-icons/fa6";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import { gigs } from "./Data";
-import { useLocation } from "react-router";
-// import { useSearchParams } from "react-router";/
+import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+
 const Gigs = () => {
-  //  WIP:sort in url not working
   const location = useLocation();
-  console.log(location);
   const { search } = location;
-  const [max, setmax] = useState("");
-  const [min, setmin] = useState("");
-  const [opensort, setopensort] = useState("createdAt");
-  const minref = useRef();
-  const maxref = useRef();
-  const { data } = useQuery({
-    queryKey: ["get-gigs", max, min],
+  const [max, setMax] = useState("");
+  const [min, setMin] = useState("");
+  const [sort, setSort] = useState("createdAt");
+  const minRef = useRef();
+  const maxRef = useRef();
+
+  const { data: gigData, isLoading, error } = useQuery({
+    queryKey: ["get-gigs", search, max, min, sort],
     queryFn: async () => {
-      const response = await axios.get(
-        `http://localhost:3000/gig${search}&max=${max}`,
-        {
-          withCredentials: true,
-        }
-      );
-      // always remember reactquery expects queryfn to return some value so you should be returning the axios response?.data
+      const params = new URLSearchParams(search.replace("?", ""));
+      if (min) params.set("min", min);
+      if (max) params.set("max", max);
+      if (sort) params.set("sort", sort);
+      const query = params.toString() ? `?${params.toString()}` : "";
+      const response = await axios.get(`http://localhost:3000/gig${query}`, {
+        withCredentials: true,
+      });
       return response?.data;
     },
   });
-  const gigdata = data;
+
   const apply = () => {
-    setmax(maxref.current.value);
-    setmin(minref.current.value);
+    setMax(maxRef.current?.value || "");
+    setMin(minRef.current?.value || "");
   };
 
-  const currectuser = localStorage.getItem("currentUser");
-  const parseduser = JSON.parse(currectuser)
-  console.log(parseduser);
-  // useEffect(() => {
-  //   async function callthefunc() {
-  //     try {
-  //       const response = await axios.get("http://localhost:3000/gig", {
-  //         withCredentials: true,
-  //       });
-  //       const gigs = response?.data;
-  //       console.log(gigs);
-  //       if (!gigs) {
-  //         seterror("Invalid email or password");
-  //         return;
-  //       }
-  //     } catch (err) {
-  //       if (err.response) {
-  //         seterror(err.response.data?.message || "Gigs are not fetched");
-  //       } else {
-  //         seterror("Network error");
-  //       }
-  //     }
-  //   }
-  //   callthefunc();
-  // }, []);
+  if (isLoading) return <div className="p-10">Loading gigs...</div>;
+  if (error) return <div className="p-10 text-red-500">Failed to load gigs</div>;
 
   return (
     <div className="px-66 text-gray-500 space-y-1 py-6">
-      <span>{`FIVER>GRAPHIC & DESGIN>`}</span>
+      <span>FIVER &gt; GRAPHIC &amp; DESIGN</span>
       <h1 className="text-black font-bold text-3xl">AI Artists</h1>
-      <p>
-        explore the boundaries of Art and Technology with the world's most
-        talented AI artists
-      </p>
+      <p>Explore art and technology with talented AI artists</p>
       <div className="flex flex-row justify-between items-center">
         <span className="flex flex-row gap-1 text-gray-500">
-          <label htmlFor="Budged">Budged</label>
+          <label htmlFor="budget">Budget</label>
           <input
-            ref={minref}
-            type="text"
+            ref={minRef}
+            type="number"
             placeholder="min"
             className="border-2 px-1 outline-none"
           />
           <input
-            ref={maxref}
-            type="text"
+            ref={maxRef}
+            type="number"
             placeholder="max"
             className="border-2 px-1 outline-none"
           />
@@ -94,76 +66,63 @@ const Gigs = () => {
           </button>
         </span>
         <span>
-          <label htmlFor="Sort by">Sort by : </label>
-          <select name="filter" id="filter" className="outline-none">
-            (
-            <option
-              value="Newest"
-              onClick={() => {
-                setopensort("price");
-              }}
-            >
-              price
-            </option>
-            ) (
-            <option
-              value="Best selling"
-              onClick={() => {
-                setopensort("createdAt");
-              }}
-            >
-              createdAt
-            </option>
-            )
+          <label htmlFor="filter">Sort by: </label>
+          <select
+            name="filter"
+            id="filter"
+            className="outline-none"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+          >
+            <option value="createdAt">Newest</option>
+            <option value="price">Price</option>
           </select>
         </span>
       </div>
 
       <div className="gap-x-10 space-y-4 grid grid-cols-3 p-2">
-        {gigdata?.map((item, index) => {
-          return (
-            <Link to={`/gig/${item._id}`} key={index}>
-              <div key={index} className="bg-gray-50 rounded-xl">
-                <div className="w-[100%]">
-                  <img
-                    src={item.CoverImg}
-                    alt="alter"
-                    className="rounded-t-xl object-cover h-[280px] w-[400px]"
-                  />
-                </div>
-
-                <div className=" px-4 py-2">
-                  <span className="flex2 items-center">
-                    <span className="object-cover rounded-2xl">
-                      <img
-                        src={item.CoverImg}
-                        alt="profile pic"
-                        className="object-cover h-[30px] w-[30px] rounded-full"
-                      />
+        {gigData?.length ? (
+          gigData.map((item) => (
+            <Link to={`/gig/${item._id}`} key={item._id}>
+              <div className="bg-gray-50 rounded-xl">
+                <img
+                  src={item.CoverImg}
+                  alt={item.title}
+                  className="rounded-t-xl object-cover h-[280px] w-full"
+                />
+                <div className="px-4 py-2">
+                  <span className="flex items-center gap-2">
+                    <img
+                      src={item.userId?.image || item.CoverImg}
+                      alt="profile"
+                      className="h-[30px] w-[30px] rounded-full object-cover"
+                    />
+                    <span className="text-black">
+                      {item.userId?.username || "Seller"}
                     </span>
-                    <span className="text-black">{parseduser.username}</span>
                   </span>
                   <p>{item.desc}</p>
-
-                  <span className="text-yellow-200 flex flex-row items-center gap-1">
+                  <span className="text-yellow-200 flex items-center gap-1">
                     <FaStar />
                     <span className="text-gray-400">
-                      {Math.round(item.totalStar / item.starNumber)}
+                      {item.starNumber
+                        ? Math.round(item.totalStar / item.starNumber)
+                        : "New"}
                     </span>
                   </span>
-
-                  <div className="flex flex-row justify-between items-center bg-gray-100 border-t-1 border-gray-200 h-16 p-2">
+                  <div className="flex justify-between items-center bg-gray-100 border-t border-gray-200 h-16 p-2">
                     <IoMdHeart />
                     <span className="text-gray-500 text-sm">
-                      STARTING AT{" "}
-                      <i className="text-black text-xl"> {item.price}$</i>
+                      STARTING AT <i className="text-black text-xl">${item.price}</i>
                     </span>
                   </div>
                 </div>
               </div>
             </Link>
-          );
-        })}
+          ))
+        ) : (
+          <p>No gigs found</p>
+        )}
       </div>
     </div>
   );
