@@ -1,12 +1,13 @@
-// src/api/axiosInstance.js
-import axios from 'axios';
+import axios from "axios";
+import { API_BASE_URL } from "./api";
+
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000',
-  timeout: 5000,
+  baseURL: API_BASE_URL,
+  timeout: 30000,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
-  withCredentials:true
+  withCredentials: true,
 });
 
 export default axiosInstance;

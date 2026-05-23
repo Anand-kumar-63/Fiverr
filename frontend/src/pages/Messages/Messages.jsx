@@ -1,6 +1,7 @@
 import React from "react";
 import Footer from "../../Components/Footer/Footer";
 import axios from "axios";
+import { API_BASE_URL } from "@/lib/api";
 import { Link } from "react-router-dom";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import moment from "moment";
@@ -13,7 +14,7 @@ const Messages = () => {
   const { isLoading, error, data } = useQuery({
     queryKey: ["conversations"],
     queryFn: async () => {
-      const response = await axios.get("http://localhost:3000/conversation/", {
+      const response = await axios.get(`${API_BASE_URL}/conversation/`, {
         withCredentials: true,
       });
       return response?.data;
@@ -24,7 +25,7 @@ const Messages = () => {
   const mutation = useMutation({
     mutationFn: async (id) => {
       const response = await axios.put(
-        `http://localhost:3000/conversation/${id}`,
+        `${API_BASE_URL}/conversation/${id}`,
         {},
         { withCredentials: true }
       );

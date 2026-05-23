@@ -10,19 +10,45 @@ import orderrouter from "./Routes/order.route.js";
 import authrouter from "./Routes/auth.route.js";
 import messagerouter from "./Routes/message.route.js";
 import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
 import cloudinaryrouter from "./Routes/cloudinary.route.js";
+
+dotenv.config();
 
 const app = express();
 
-app.use(cookieParser());
-app.use(express.json());
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://127.0.0.1:5173",
+  "http://127.0.0.1:5174",
+].filter(Boolean);
+
 app.use(
   cors({
-    origin:"http://localhost:5174",
+    origin(origin, callback) {
+      // Allow server-to-server tools (no Origin header) and listed dev URLs
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.warn(`CORS blocked request from origin: ${origin}`);
+        callback(null, false);
+      }
+    },
     credentials: true,
+   
   })
 );
+console.log("hello");
 
+
+app.use(cookieParser());
+app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("Server is running");
+});
 app.use("/auth", authrouter);
 app.use("/cloud", cloudinaryrouter);
 app.use("/user", userrouter);
@@ -41,6 +67,7 @@ ConnectDB()
   .then(() => {
     app.listen(process.env.PORT || 3000, () => {
       console.log(`Server is running on port ${process.env.PORT || 3000}`);
+      console.log(`CORS allowed origins: ${allowedOrigins.join(", ")}`);
     });
   })
   .catch((err) => {

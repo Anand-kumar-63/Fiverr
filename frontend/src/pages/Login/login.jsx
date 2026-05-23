@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "@/lib/api";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/Components/ui/button";
 // import Newrequest from "@/utils/axiosInstance";
@@ -13,7 +14,7 @@ const Login = () => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/auth/login",
+        `${API_BASE_URL}/auth/login`,
         {
           email,
           password,

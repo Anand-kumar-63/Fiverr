@@ -10,6 +10,7 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { CiGlobe } from "react-icons/ci";
 import { AiTwotoneDollarCircle } from "react-icons/ai";
 import axios from "axios";
+import { API_BASE_URL } from "@/lib/api";
 import Reviews from "@/Components/Reviews/reviews";
 import {
   Carousel,
@@ -41,7 +42,7 @@ const Gig = () => {
     queryKey: ["get-querydata"],
     queryFn: async () => {
       const response = await axios.get(
-        `http://localhost:3000/gig/single/${id}`,
+        `${API_BASE_URL}/gig/single/${id}`,
         {
           withCredentials: true,
         }

@@ -1,5 +1,6 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { API_BASE_URL } from "@/lib/api";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
@@ -33,7 +34,7 @@ const Signup = () => {
   const upload = async (file) => {
     const data = new FormData();
     data.append("file", file);
-    const response = await axios.post("http://localhost:3000/cloud/upload", data, {
+    const response = await axios.post(`${API_BASE_URL}/cloud/upload`, data, {
       headers: { "Content-Type": "multipart/form-data" },
       withCredentials: true,
     });
@@ -43,6 +44,8 @@ const Signup = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
+    console.log("submit handler");
+    console.log(import.meta.env.VITE_API_URL);
     try {
       let imageUrl = "";
       if (input.image && input.image instanceof File) {
@@ -60,8 +63,8 @@ const Signup = () => {
           description: input.description,
         }),
       };
-
-      await axios.post("http://localhost:3000/auth/register", payload, {
+      console.log(payload);
+      await axios.post(`${API_BASE_URL}/auth/register`, payload, {
         withCredentials: true,
       });
       navigate("/login");

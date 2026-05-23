@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
 import axios from "axios";
+import { API_BASE_URL } from "@/lib/api";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const Navbar = () => {
   async function logoutUser() {
     try {
       await axios.post(
-        "http://localhost:3000/auth/logout",
+        `${API_BASE_URL}/auth/logout`,
         {},
         { withCredentials: true }
       );

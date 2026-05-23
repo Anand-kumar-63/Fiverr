@@ -3,6 +3,7 @@ import { IoMdHeart } from "react-icons/io";
 import { FaStar } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { API_BASE_URL } from "@/lib/api";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
@@ -23,7 +24,7 @@ const Gigs = () => {
       if (max) params.set("max", max);
       if (sort) params.set("sort", sort);
       const query = params.toString() ? `?${params.toString()}` : "";
-      const response = await axios.get(`http://localhost:3000/gig${query}`, {
+      const response = await axios.get(`${API_BASE_URL}/gig${query}`, {
         withCredentials: true,
       });
       return response?.data;

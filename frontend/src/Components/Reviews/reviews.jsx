@@ -1,6 +1,7 @@
 import React from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { API_BASE_URL } from "@/lib/api";
 import Review from "../review/review";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -10,7 +11,7 @@ const Reviews = ({ gigId }) => {
   const { isLoading, error, data } = useQuery({
     queryKey: ["getreviews", gigId],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:3000/reviews/${gigId}`, {
+      const res = await axios.get(`${API_BASE_URL}/reviews/${gigId}`, {
         withCredentials: true,
       });
       return res.data;
@@ -21,7 +22,7 @@ const Reviews = ({ gigId }) => {
   const mutation = useMutation({
     mutationFn: async (newreview) => {
       const response = await axios.post(
-        "http://localhost:3000/reviews/",
+        `${API_BASE_URL}/reviews/`,
         newreview,
         { withCredentials: true }
       );

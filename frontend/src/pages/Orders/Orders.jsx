@@ -1,12 +1,13 @@
 import React from "react";
 import axios from "axios";
+import { API_BASE_URL } from "@/lib/api";
 import Footer from "../../Components/Footer/Footer";
 import { useQuery } from "@tanstack/react-query";
 const Orders = () => {
   const { isLoading, error, data } = useQuery({
     queryKey: ["order"],
     queryFn: async () => {
-      const response = await axios.get("http://localhost:3000/order/", {
+      const response = await axios.get(`${API_BASE_URL}/order/`, {
         withCredentials: true,
       });
       console.log(response?.data);

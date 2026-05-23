@@ -1,10 +1,7 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { Button } from "@/Components/ui/button";
-
+import { API_BASE_URL } from "@/lib/api";
 const Message = () => {
   const { Id } = useParams();
   console.log(Id);
@@ -16,7 +13,7 @@ const Message = () => {
   const { isLoading, error, data } = useQuery({
     queryKey: ["messages", Id],
     queryFn: async () => {
-      const response = await axios.get(`http://localhost:3000/message/${Id}`, {
+      const response = await axios.get(`${API_BASE_URL}/message/${Id}`, {
         withCredentials: true,
       });
       console.log(response.data);
@@ -28,7 +25,7 @@ const Message = () => {
     mutationFn: async (message) => {
       console.log(message);
       const response = await axios.post(
-        `http://localhost:3000/message/`,
+        `${API_BASE_URL}/message/`,
         message,
         {
           withCredentials: true,
@@ -117,5 +114,4 @@ const Message = () => {
     </div>
   );
 };
-
 export default Message;

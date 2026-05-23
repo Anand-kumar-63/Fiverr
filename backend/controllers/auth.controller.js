@@ -2,6 +2,7 @@ import UserModel from "../Models/user.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import CreatenewError from "../utils/createnewError.js";
+import { authCookieOptions } from "../utils/cookieOptions.js";
 
 export const Login = async (req, res, next) => {
   try {
@@ -22,10 +23,7 @@ export const Login = async (req, res, next) => {
       process.env.JWT_KEY,
       { expiresIn: "1h" }
     );
-    res.cookie("access_token", token, {
-      httpOnly: true,
-      expires: new Date(Date.now() + 60 * 60 * 1000),
-    });
+    res.cookie("access_token", token, authCookieOptions);
     return res.status(200).json({
       message: "Login successful",
       user: {
@@ -43,6 +41,7 @@ export const Login = async (req, res, next) => {
 
 export const Signup = async (req, res, next) => {
   try {
+    console.log(req.body);
     const { email, password, ...data } = req.body;
     const existinguser = await UserModel.findOne({ email });
     if (existinguser) {
@@ -67,9 +66,7 @@ export const Signup = async (req, res, next) => {
 
 export const Logout = (req, res) => {
   res
-    .clearCookie("access_token", {
-      httpOnly: true,
-    })
+    .clearCookie("access_token", authCookieOptions)
     .status(200)
     .json({ message: "User logged out" });
 };

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { API_BASE_URL } from "@/lib/api";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import Checkoutform from "@/Components/CheckoutForm/Checkoutform";
@@ -16,7 +17,7 @@ const Pay = () => {
     const makeRequest = async () => {
       try {
         const res = await axios.post(
-          `http://localhost:3000/order/create-payment-intent/${Id}`,
+          `${API_BASE_URL}/order/create-payment-intent/${Id}`,
           {},
           { withCredentials: true }
         );

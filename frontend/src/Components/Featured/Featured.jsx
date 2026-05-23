@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useParams } from "react-router";
+// import { useParams } from "react-router";
 const Featured = () => {
   const [item, setitem] = useState("");
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const Featured = () => {
             className="outline-0 px-56 border-b-2 border-t-2 border-l-2 rounded-l-sm"
             type="text"
             placeholder="try to make a real time app"
-            onChange={() => setitem(e.target.value)}
+            onChange={(e) => setitem(e.target.value)}
           />
           <button
             className="border-b-2 border-t-2 border-r-2 px-10 py-1 rounded-r-sm "

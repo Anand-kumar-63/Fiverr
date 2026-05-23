@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Footer from "../../Components/Footer/Footer";
 import axios from "axios";
+import { API_BASE_URL } from "@/lib/api";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -28,7 +29,7 @@ const AddNewGigs = () => {
   const uploadFile = async (file) => {
     const data = new FormData();
     data.append("file", file);
-    const res = await axios.post("http://localhost:3000/cloud/upload", data, {
+    const res = await axios.post(`${API_BASE_URL}/cloud/upload`, data, {
       headers: { "Content-Type": "multipart/form-data" },
       withCredentials: true,
     });
@@ -81,7 +82,7 @@ const AddNewGigs = () => {
         Image: gigData.Image,
         Features: gigData.Features,
       };
-      await axios.post("http://localhost:3000/gig/", payload, {
+      await axios.post(`${API_BASE_URL}/gig/`, payload, {
         withCredentials: true,
       });
       toast.success("Gig created");
